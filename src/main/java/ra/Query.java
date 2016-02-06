@@ -12,7 +12,7 @@ import ra.grammar.error.RAErrorStrategy;
 import ra.grammar.RAEvalVisitor;
 import ra.grammar.gen.RAGrammarLexer;
 import ra.grammar.gen.RAGrammarParser;
-import util.ResultSetUtilities;
+import ra.util.ResultSetUtilities;
 
 import java.sql.ResultSet;
 

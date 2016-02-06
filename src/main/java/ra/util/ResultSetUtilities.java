@@ -1,4 +1,4 @@
-package util;
+package ra.util;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -6,8 +6,6 @@ import org.json.JSONObject;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jordanly on 10/18/15.
