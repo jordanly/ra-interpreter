@@ -5,9 +5,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import ra.Query;
 import ra.exceptions.RAException;
 import ra.grammar.error.RAErrorParser;
-import ra.grammar.gen.RAGrammarBaseVisitor;
-import ra.grammar.gen.RAGrammarParser;
 import ra.RA;
+import ra.grammar.gen.*;
 
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;

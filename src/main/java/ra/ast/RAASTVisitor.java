@@ -1,7 +1,6 @@
 package ra.ast;
 
-import ra.grammar.gen.RAGrammarBaseVisitor;
-import ra.grammar.gen.RAGrammarParser;
+import ra.grammar.gen.*;
 
 /**
  * Created by jordanly on 11/9/15.

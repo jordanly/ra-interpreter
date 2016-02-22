@@ -1,5 +1,5 @@
 // Generated from /Users/jordanly/Documents/workspace/ra-interpreter/src/main/java/ra/grammar/RAGrammar.g4 by ANTLR 4.5.1
-package ra.grammar.gen;
+package ra.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -98,12 +98,6 @@ public interface RAGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitEq_atom(RAGrammarParser.Eq_atomContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link RAGrammarParser#value}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitValue(RAGrammarParser.ValueContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link RAGrammarParser#select_cond}.
 	 * @param ctx the parse tree

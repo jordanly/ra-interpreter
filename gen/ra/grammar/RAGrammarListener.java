@@ -1,5 +1,5 @@
 // Generated from /Users/jordanly/Documents/workspace/ra-interpreter/src/main/java/ra/grammar/RAGrammar.g4 by ANTLR 4.5.1
-package ra.grammar.gen;
+package ra.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -157,16 +157,6 @@ public interface RAGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitEq_atom(RAGrammarParser.Eq_atomContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link RAGrammarParser#value}.
-	 * @param ctx the parse tree
-	 */
-	void enterValue(RAGrammarParser.ValueContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link RAGrammarParser#value}.
-	 * @param ctx the parse tree
-	 */
-	void exitValue(RAGrammarParser.ValueContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link RAGrammarParser#select_cond}.
 	 * @param ctx the parse tree

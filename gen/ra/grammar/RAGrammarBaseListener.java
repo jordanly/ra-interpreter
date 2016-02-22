@@ -1,5 +1,5 @@
 // Generated from /Users/jordanly/Documents/workspace/ra-interpreter/src/main/java/ra/grammar/RAGrammar.g4 by ANTLR 4.5.1
-package ra.grammar.gen;
+package ra.grammar;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -167,18 +167,6 @@ public class RAGrammarBaseListener implements RAGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitEq_atom(RAGrammarParser.Eq_atomContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterValue(RAGrammarParser.ValueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitValue(RAGrammarParser.ValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
