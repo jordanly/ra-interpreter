@@ -266,8 +266,6 @@ public class RAEvalVisitor extends RAGrammarBaseVisitor<String> {
     }
 
     private String extractOperatorOption(String val, String operation, ParserRuleContext ctx) {
-        String option = val.substring(2, val.length() - 1); // remove "_{" + "}"
-        return (errorParser.validateOperatorOption(query, option, operation, ctx)
-                ? option : "ERROR");
+        return val.substring(2, val.length() - 1); // remove "_{" + "}"
     }
 }

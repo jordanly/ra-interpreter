@@ -77,10 +77,4 @@ public class RAErrorParser {
 
         return true;
     }
-
-    public boolean validateOperatorOption(Query query, String val, String operation,
-                                          ParserRuleContext ctx) {
-
-        return true;
-    }
 }
