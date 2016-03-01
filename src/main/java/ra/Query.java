@@ -2,6 +2,7 @@ package ra;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.json.JSONObject;
 import ra.ast.RAASTNode;
@@ -42,14 +43,25 @@ public class Query {
 
         /**
          * Remove the default ANTLR listener before adding our own listener. The
-         * default ANTLR listener just prints parsing errors to STDERR"
+         * default ANTLR listener just prints errors to STDERR"
          */
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(new RAErrorListener(this));
         parser.removeErrorListeners();
         parser.addErrorListener(new RAErrorListener(this));
 
-        this.tree = parser.exp0();
-        this.sqlQuery = new RAEvalVisitor(ra, this).visit(tree);
-        this.astTree = new RAASTVisitor().visit(tree);
+        try {
+            this.tree = parser.exp0();
+            this.sqlQuery = new RAEvalVisitor(ra, this).visit(tree);
+            this.astTree = new RAASTVisitor().visit(tree);
+        } catch (RecognitionException e) {
+            // Exception should already be set in query from listener, just return
+            return;
+        } catch (Exception e) {
+            // Don't quite know this exception, log it
+            System.err.println("UNKNOWN ERROR: " + e.toString());
+            return;
+        }
 
         if (isValid()) {
             try {
