@@ -74,8 +74,7 @@ public class RAEvalVisitor extends RAGrammarBaseVisitor<String> {
         String command = String.format(" ( SELECT * FROM %s %s ) ",
                 visit(ctx.getChild(0)), generateAlias());
 
-        return (command != null && errorParser.validate(query, command,
-                RAErrorParser.UNIT_ERRORS, ctx) ? command : "ERROR");
+        return (command != null && errorParser.validate(query, command, ctx) ? command : "ERROR");
     }
 
     @Override
@@ -152,8 +151,7 @@ public class RAEvalVisitor extends RAGrammarBaseVisitor<String> {
                 break;
         }
 
-        return (command != null && errorParser.validate(query, command,
-                RAErrorParser.UNARY_ERRORS, ctx) ? command : "ERROR");
+        return (command != null && errorParser.validate(query, command, ctx) ? command : "ERROR");
     }
 
     @Override
@@ -248,8 +246,7 @@ public class RAEvalVisitor extends RAGrammarBaseVisitor<String> {
                 break;
         }
 
-        return (command != null && errorParser.validate(query, command,
-                RAErrorParser.BINARY_ERRORS, ctx) ? command : "ERROR");
+        return (command != null && errorParser.validate(query, command, ctx) ? command : "ERROR");
     }
 
     /**
