@@ -42,8 +42,8 @@ public class Query {
         parser.setErrorHandler(new RAErrorStrategy());
 
         /**
-         * Remove the default ANTLR listener before adding our own listener. The
-         * default ANTLR listener just prints errors to STDERR"
+         * Remove the default ANTLR listeners before adding our own listeners. The
+         * default ANTLR listeners just prints errors to STDERR"
          */
         lexer.removeErrorListeners();
         lexer.addErrorListener(new RAErrorListener(this));

@@ -2,21 +2,14 @@ grammar RAGrammar ;
 
 // Lexer rules
 
-// Reserved Keywords
-AND : ' and ' ; // TODO spaces in tokens?
-OR  : ' or ' ;
-NOT : 'not ' ;
-LIKE : ' like ' ;
-
 fragment DIGIT : [0-9] ;
 fragment ALPHA : [a-zA-Z]+ ;
-WS : [ \t\r\n]+ -> skip ;
 
-LEFT_PAREN : '(' ;
-RIGHT_PAREN : ')' ;
-STATEMENT_TERMINATOR : ';' ;
-COMMA : ',' ;
-TABLE_NAME : ALPHA (ALPHA|DIGIT|'_')* ; // same as column
+// Reserved Keywords
+AND : 'and' ; // TODO spaces in tokens?
+OR  : 'or' ;
+NOT : 'not' ;
+LIKE : 'like' ;
 
 // Base RA commands
 SELECT : '\\select' ;
@@ -28,6 +21,8 @@ DIFF : '\\diff' ;
 INTERSECT: '\\intersect' ;
 RENAME : '\\rename' ;
 
+LEFT_PAREN : '(' ;
+RIGHT_PAREN : ')' ;
 LEFT_BRACE : '_{' ;
 RIGHT_BRACE : '}' ;
 EQUALS : '=' ;
@@ -36,9 +31,17 @@ LTE : '<=' ;
 GT : '>' ;
 GTE : '>=' ;
 NOT_EQUALS : '<>' ;
-STRING_LITERAL : '\'' (.|[^'])*? '\'' ;
+COMMA : ',' ;
+STATEMENT_TERMINATOR : ';' ;
+
 INT : DIGIT+ ;
 FLOAT : DIGIT+ '.' DIGIT+ ;
+STRING_LITERAL : '\'' (.|[^'])*? '\'' ;
+
+NAME : ALPHA (ALPHA|DIGIT|'_')* ; // same as column
+
+// Whitespace
+WHITESPACE : [ \t\r\n]+ -> skip;
 
 // C style comments
 COMMENT : '/*' .*? '*/' -> channel(HIDDEN) ;
@@ -50,7 +53,7 @@ SINGLELINE_COMMENT: '//' ~('\r'|'\n')*  -> channel(HIDDEN) ;
 
 exp0        : exp STATEMENT_TERMINATOR EOF ;
 
-exp_unit    : TABLE_NAME                                #tableExp
+exp_unit    : NAME                                #tableExp
             | LEFT_PAREN exp1 RIGHT_PAREN               #parenExp
             ;
 
@@ -96,11 +99,11 @@ value       : INT
 
 select_cond : LEFT_BRACE s_cond2 RIGHT_BRACE ;
 
-s_cond0     : TABLE_NAME comp_atom value
-            | TABLE_NAME comp_atom TABLE_NAME
-            | TABLE_NAME eq_atom TABLE_NAME
-            | TABLE_NAME eq_atom STRING_LITERAL
-            | TABLE_NAME LIKE STRING_LITERAL
+s_cond0     : NAME comp_atom value
+            | NAME comp_atom NAME
+            | NAME eq_atom NAME
+            | NAME eq_atom STRING_LITERAL
+            | NAME LIKE STRING_LITERAL
             ;
 
 s_cond1     : s_cond0
@@ -114,7 +117,7 @@ s_cond2     : s_cond1
 
 proj_cond   : LEFT_BRACE p_cond1 RIGHT_BRACE ;
 
-p_cond0     : TABLE_NAME
+p_cond0     : NAME
             ;
 
 p_cond1     : p_cond0
@@ -123,8 +126,8 @@ p_cond1     : p_cond0
 
 join_cond   : LEFT_BRACE j_cond2 RIGHT_BRACE ;
 
-j_cond0     : TABLE_NAME eq_atom TABLE_NAME
-            | TABLE_NAME comp_atom TABLE_NAME
+j_cond0     : NAME eq_atom NAME
+            | NAME comp_atom NAME
             ;
 
 j_cond1     : j_cond0
