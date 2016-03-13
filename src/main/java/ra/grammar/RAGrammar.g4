@@ -32,10 +32,10 @@ GT : '>' ;
 GTE : '>=' ;
 NOT_EQUALS : '<>' ;
 COMMA : ',' ;
+DOT : '.' ;
 STATEMENT_TERMINATOR : ';' ;
 
 INT : DIGIT+ ;
-FLOAT : DIGIT+ '.' DIGIT+ ;
 STRING_LITERAL : '\'' (.|[^'])*? '\'' ;
 
 NAME : ALPHA (ALPHA|DIGIT|'_')* ; // same as column
@@ -91,8 +91,7 @@ eq_atom     : EQUALS
             | NOT_EQUALS
             ;
 
-value       : INT
-            | FLOAT
+value       : INT (DOT INT)*
             ;
 
 // TODO maybe have parenthesis in this? not (x > y)?
