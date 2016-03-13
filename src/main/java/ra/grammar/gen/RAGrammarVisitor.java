@@ -87,17 +87,17 @@ public interface RAGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBinaryTermExp(RAGrammarParser.BinaryTermExpContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link RAGrammarParser#comp_atom}.
+	 * Visit a parse tree produced by {@link RAGrammarParser#comparisonOperator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitComp_atom(RAGrammarParser.Comp_atomContext ctx);
+	T visitComparisonOperator(RAGrammarParser.ComparisonOperatorContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link RAGrammarParser#eq_atom}.
+	 * Visit a parse tree produced by {@link RAGrammarParser#equalityOperator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEq_atom(RAGrammarParser.Eq_atomContext ctx);
+	T visitEqualityOperator(RAGrammarParser.EqualityOperatorContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link RAGrammarParser#value}.
 	 * @param ctx the parse tree
@@ -105,69 +105,51 @@ public interface RAGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitValue(RAGrammarParser.ValueContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link RAGrammarParser#select_cond}.
+	 * Visit a parse tree produced by {@link RAGrammarParser#selectCondition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSelect_cond(RAGrammarParser.Select_condContext ctx);
+	T visitSelectCondition(RAGrammarParser.SelectConditionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link RAGrammarParser#s_cond0}.
+	 * Visit a parse tree produced by {@link RAGrammarParser#joinCondition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitS_cond0(RAGrammarParser.S_cond0Context ctx);
+	T visitJoinCondition(RAGrammarParser.JoinConditionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link RAGrammarParser#s_cond1}.
+	 * Visit a parse tree produced by {@link RAGrammarParser#condition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitS_cond1(RAGrammarParser.S_cond1Context ctx);
+	T visitCondition(RAGrammarParser.ConditionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link RAGrammarParser#s_cond2}.
+	 * Visit a parse tree produced by {@link RAGrammarParser#notCondition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitS_cond2(RAGrammarParser.S_cond2Context ctx);
+	T visitNotCondition(RAGrammarParser.NotConditionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link RAGrammarParser#proj_cond}.
+	 * Visit a parse tree produced by {@link RAGrammarParser#andCondition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitProj_cond(RAGrammarParser.Proj_condContext ctx);
+	T visitAndCondition(RAGrammarParser.AndConditionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link RAGrammarParser#p_cond0}.
+	 * Visit a parse tree produced by {@link RAGrammarParser#orCondition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitP_cond0(RAGrammarParser.P_cond0Context ctx);
+	T visitOrCondition(RAGrammarParser.OrConditionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link RAGrammarParser#p_cond1}.
+	 * Visit a parse tree produced by {@link RAGrammarParser#attributeList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitP_cond1(RAGrammarParser.P_cond1Context ctx);
+	T visitAttributeList(RAGrammarParser.AttributeListContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link RAGrammarParser#join_cond}.
+	 * Visit a parse tree produced by {@link RAGrammarParser#operatorOption}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitJoin_cond(RAGrammarParser.Join_condContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link RAGrammarParser#j_cond0}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitJ_cond0(RAGrammarParser.J_cond0Context ctx);
-	/**
-	 * Visit a parse tree produced by {@link RAGrammarParser#j_cond1}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitJ_cond1(RAGrammarParser.J_cond1Context ctx);
-	/**
-	 * Visit a parse tree produced by {@link RAGrammarParser#j_cond2}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitJ_cond2(RAGrammarParser.J_cond2Context ctx);
+	T visitOperatorOption(RAGrammarParser.OperatorOptionContext ctx);
 }
