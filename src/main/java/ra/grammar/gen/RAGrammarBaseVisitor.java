@@ -17,91 +17,56 @@ public class RAGrammarBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExp0(RAGrammarParser.Exp0Context ctx) { return visitChildren(ctx); }
+	@Override public T visitProgram(RAGrammarParser.ProgramContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTableExp(RAGrammarParser.TableExpContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUnitExpression(RAGrammarParser.UnitExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitParenExp(RAGrammarParser.ParenExpContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUnaryOperator(RAGrammarParser.UnaryOperatorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUnitExp(RAGrammarParser.UnitExpContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUnaryExpression(RAGrammarParser.UnaryExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUnaryExp(RAGrammarParser.UnaryExpContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBinaryOperator(RAGrammarParser.BinaryOperatorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSingleUnaryExp(RAGrammarParser.SingleUnaryExpContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBinaryExpression(RAGrammarParser.BinaryExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitJoinExp(RAGrammarParser.JoinExpContext ctx) { return visitChildren(ctx); }
+	@Override public T visitComparisonOperator(RAGrammarParser.ComparisonOperatorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBinaryExp(RAGrammarParser.BinaryExpContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitSingleTermExp(RAGrammarParser.SingleTermExpContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitJoinTermExp(RAGrammarParser.JoinTermExpContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitBinaryTermExp(RAGrammarParser.BinaryTermExpContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitComp_atom(RAGrammarParser.Comp_atomContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitEq_atom(RAGrammarParser.Eq_atomContext ctx) { return visitChildren(ctx); }
+	@Override public T visitEqualityOperator(RAGrammarParser.EqualityOperatorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -115,75 +80,54 @@ public class RAGrammarBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSelect_cond(RAGrammarParser.Select_condContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSelectCondition(RAGrammarParser.SelectConditionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitS_cond0(RAGrammarParser.S_cond0Context ctx) { return visitChildren(ctx); }
+	@Override public T visitJoinCondition(RAGrammarParser.JoinConditionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitS_cond1(RAGrammarParser.S_cond1Context ctx) { return visitChildren(ctx); }
+	@Override public T visitCondition(RAGrammarParser.ConditionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitS_cond2(RAGrammarParser.S_cond2Context ctx) { return visitChildren(ctx); }
+	@Override public T visitNotCondition(RAGrammarParser.NotConditionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitProj_cond(RAGrammarParser.Proj_condContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBooleanOperator(RAGrammarParser.BooleanOperatorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitP_cond0(RAGrammarParser.P_cond0Context ctx) { return visitChildren(ctx); }
+	@Override public T visitBooleanCondition(RAGrammarParser.BooleanConditionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitP_cond1(RAGrammarParser.P_cond1Context ctx) { return visitChildren(ctx); }
+	@Override public T visitAttributeList(RAGrammarParser.AttributeListContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitJoin_cond(RAGrammarParser.Join_condContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitJ_cond0(RAGrammarParser.J_cond0Context ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitJ_cond1(RAGrammarParser.J_cond1Context ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitJ_cond2(RAGrammarParser.J_cond2Context ctx) { return visitChildren(ctx); }
+	@Override public T visitOperatorOption(RAGrammarParser.OperatorOptionContext ctx) { return visitChildren(ctx); }
 }

@@ -25,6 +25,10 @@ public class RAErrorParser {
             return false;
         }
 
+        if (command == null) {
+            return false;
+        }
+
         // Add SELECT * FROM to command since not all of our nodes are complete
         // SQL statements (binary ones for example)
         String formattedCommand = String.format("SELECT * FROM ( %s ) %s",

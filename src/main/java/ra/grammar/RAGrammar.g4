@@ -6,7 +6,7 @@ fragment DIGIT : [0-9] ;
 fragment ALPHA : [a-zA-Z]+ ;
 
 // Reserved Keywords
-AND : 'and' ; // TODO spaces in tokens?
+AND : 'and' ;
 OR  : 'or' ;
 NOT : 'not' ;
 LIKE : 'like' ;
@@ -21,24 +21,32 @@ DIFF : '\\diff' ;
 INTERSECT: '\\intersect' ;
 RENAME : '\\rename' ;
 
+// Separators
 LEFT_PAREN : '(' ;
 RIGHT_PAREN : ')' ;
 LEFT_BRACE : '_{' ;
 RIGHT_BRACE : '}' ;
+COMMA : ',' ;
+DOT : '.' ;
+STATEMENT_TERMINATOR : ';' ;
+
+// Operations
 EQUALS : '=' ;
 LT : '<' ;
 LTE : '<=' ;
 GT : '>' ;
 GTE : '>=' ;
 NOT_EQUALS : '<>' ;
-COMMA : ',' ;
-DOT : '.' ;
-STATEMENT_TERMINATOR : ';' ;
 
+// Numbers
 INT : DIGIT+ ;
+FLOAT : DIGIT DOT DIGIT+ ;
+
+// Strings
 STRING_LITERAL : '\'' (.|[^'])*? '\'' ;
 
-NAME : ALPHA (ALPHA|DIGIT|'_')* ; // same as column
+// Identifier
+ID : ALPHA (ALPHA|DIGIT|'_')* ; // Column or table name
 
 // Whitespace
 WHITESPACE : [ \t\r\n]+ -> skip;
@@ -51,91 +59,93 @@ SINGLELINE_COMMENT: '//' ~('\r'|'\n')*  -> channel(HIDDEN) ;
 
 // Parser Rules
 
-exp0        : exp STATEMENT_TERMINATOR EOF ;
+program
+    : binaryExpression STATEMENT_TERMINATOR EOF ;
 
-exp_unit    : NAME                                #tableExp
-            | LEFT_PAREN exp1 RIGHT_PAREN               #parenExp
-            ;
+unitExpression
+    : ID
+    | LEFT_PAREN binaryExpression RIGHT_PAREN
+    ;
 
-exp_unary   : exp_unit                                  #unitExp
-            | SELECT select_cond exp_unary              #unaryExp
-            | PROJECT proj_cond exp_unary               #unaryExp
-            | RENAME proj_cond exp_unary                #unaryExp
-            ;
+unaryOperator
+    : SELECT operatorOption
+    | PROJECT operatorOption
+    | RENAME operatorOption
+    ;
 
-exp         : exp_unary                                 #singleUnaryExp
-            | exp_unary JOIN join_cond exp_unary        #joinExp
-            | exp_unary JOIN exp_unary                  #binaryExp
-            | exp_unary CROSS exp_unary                 #binaryExp
-            | exp_unary UNION exp_unary                 #binaryExp
-            | exp_unary DIFF exp_unary                  #binaryExp
-            | exp_unary INTERSECT exp_unary             #binaryExp
-            ;
+unaryExpression
+    : unitExpression
+    | unaryOperator unaryExpression
+    ;
 
-exp1        : exp                                       #singleTermExp
-            | exp JOIN join_cond exp_unary              #joinTermExp
-            | exp JOIN exp_unary                        #binaryTermExp
-            | exp CROSS exp_unary                       #binaryTermExp
-            | exp UNION exp_unary                       #binaryTermExp
-            | exp DIFF exp_unary                        #binaryTermExp
-            | exp INTERSECT exp_unary                   #binaryTermExp
-            ;
+binaryOperator
+    : JOIN operatorOption
+    | JOIN
+    | CROSS
+    | UNION
+    | DIFF
+    | INTERSECT
+    ;
 
-comp_atom   : GT
-            | GTE
-            | LT
-            | LTE
-            ;
+binaryExpression
+    : unaryExpression ( binaryOperator unaryExpression )*
+    ;
 
-eq_atom     : EQUALS
-            | NOT_EQUALS
-            ;
+comparisonOperator
+    : GT
+    | GTE
+    | LT
+    | LTE
+    ;
 
-value       : INT (DOT INT)*
-            ;
+equalityOperator
+    : EQUALS
+    | NOT_EQUALS
+    ;
 
-// TODO maybe have parenthesis in this? not (x > y)?
+value
+    : INT
+    | FLOAT
+    ;
 
-select_cond : LEFT_BRACE s_cond2 RIGHT_BRACE ;
+selectCondition
+    : ID comparisonOperator value
+    | ID comparisonOperator ID
+    | ID equalityOperator ID
+    | ID equalityOperator STRING_LITERAL
+    | ID LIKE STRING_LITERAL
+    ;
 
-s_cond0     : NAME comp_atom value
-            | NAME comp_atom NAME
-            | NAME eq_atom NAME
-            | NAME eq_atom STRING_LITERAL
-            | NAME LIKE STRING_LITERAL
-            ;
+joinCondition
+    : ID equalityOperator ID
+    | ID comparisonOperator ID
+    ;
 
-s_cond1     : s_cond0
-            | NOT s_cond0
-            ;
+condition
+    : selectCondition
+    | joinCondition
+    ;
 
-s_cond2     : s_cond1
-            | s_cond1 AND s_cond1
-            | s_cond1 OR s_cond1
-            ;
+notCondition
+    : ( NOT )? condition
+    ;
 
-proj_cond   : LEFT_BRACE p_cond1 RIGHT_BRACE ;
+booleanOperator
+    : AND
+    | OR
+    ;
 
-p_cond0     : NAME
-            ;
+booleanCondition
+    : notCondition ( booleanOperator notCondition )*
+    ;
 
-p_cond1     : p_cond0
-            | p_cond1 COMMA p_cond0
-            ;
+attributeList
+    : ID ( COMMA ID )*
+    ;
 
-join_cond   : LEFT_BRACE j_cond2 RIGHT_BRACE ;
-
-j_cond0     : NAME eq_atom NAME
-            | NAME comp_atom NAME
-            ;
-
-j_cond1     : j_cond0
-            | NOT j_cond0
-            ;
-
-j_cond2     : j_cond1
-            | j_cond1 AND j_cond1
-            | j_cond1 OR j_cond1
-            ;
+operatorOption
+    : LEFT_BRACE booleanCondition RIGHT_BRACE
+    | LEFT_BRACE attributeList RIGHT_BRACE
+    ;
 
 // ==========================================

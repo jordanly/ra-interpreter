@@ -8,155 +8,85 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface RAGrammarListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link RAGrammarParser#exp0}.
+	 * Enter a parse tree produced by {@link RAGrammarParser#program}.
 	 * @param ctx the parse tree
 	 */
-	void enterExp0(RAGrammarParser.Exp0Context ctx);
+	void enterProgram(RAGrammarParser.ProgramContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link RAGrammarParser#exp0}.
+	 * Exit a parse tree produced by {@link RAGrammarParser#program}.
 	 * @param ctx the parse tree
 	 */
-	void exitExp0(RAGrammarParser.Exp0Context ctx);
+	void exitProgram(RAGrammarParser.ProgramContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code tableExp}
-	 * labeled alternative in {@link RAGrammarParser#exp_unit}.
+	 * Enter a parse tree produced by {@link RAGrammarParser#unitExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterTableExp(RAGrammarParser.TableExpContext ctx);
+	void enterUnitExpression(RAGrammarParser.UnitExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code tableExp}
-	 * labeled alternative in {@link RAGrammarParser#exp_unit}.
+	 * Exit a parse tree produced by {@link RAGrammarParser#unitExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitTableExp(RAGrammarParser.TableExpContext ctx);
+	void exitUnitExpression(RAGrammarParser.UnitExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code parenExp}
-	 * labeled alternative in {@link RAGrammarParser#exp_unit}.
+	 * Enter a parse tree produced by {@link RAGrammarParser#unaryOperator}.
 	 * @param ctx the parse tree
 	 */
-	void enterParenExp(RAGrammarParser.ParenExpContext ctx);
+	void enterUnaryOperator(RAGrammarParser.UnaryOperatorContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code parenExp}
-	 * labeled alternative in {@link RAGrammarParser#exp_unit}.
+	 * Exit a parse tree produced by {@link RAGrammarParser#unaryOperator}.
 	 * @param ctx the parse tree
 	 */
-	void exitParenExp(RAGrammarParser.ParenExpContext ctx);
+	void exitUnaryOperator(RAGrammarParser.UnaryOperatorContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code unitExp}
-	 * labeled alternative in {@link RAGrammarParser#exp_unary}.
+	 * Enter a parse tree produced by {@link RAGrammarParser#unaryExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterUnitExp(RAGrammarParser.UnitExpContext ctx);
+	void enterUnaryExpression(RAGrammarParser.UnaryExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code unitExp}
-	 * labeled alternative in {@link RAGrammarParser#exp_unary}.
+	 * Exit a parse tree produced by {@link RAGrammarParser#unaryExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitUnitExp(RAGrammarParser.UnitExpContext ctx);
+	void exitUnaryExpression(RAGrammarParser.UnaryExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code unaryExp}
-	 * labeled alternative in {@link RAGrammarParser#exp_unary}.
+	 * Enter a parse tree produced by {@link RAGrammarParser#binaryOperator}.
 	 * @param ctx the parse tree
 	 */
-	void enterUnaryExp(RAGrammarParser.UnaryExpContext ctx);
+	void enterBinaryOperator(RAGrammarParser.BinaryOperatorContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code unaryExp}
-	 * labeled alternative in {@link RAGrammarParser#exp_unary}.
+	 * Exit a parse tree produced by {@link RAGrammarParser#binaryOperator}.
 	 * @param ctx the parse tree
 	 */
-	void exitUnaryExp(RAGrammarParser.UnaryExpContext ctx);
+	void exitBinaryOperator(RAGrammarParser.BinaryOperatorContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code singleUnaryExp}
-	 * labeled alternative in {@link RAGrammarParser#exp}.
+	 * Enter a parse tree produced by {@link RAGrammarParser#binaryExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterSingleUnaryExp(RAGrammarParser.SingleUnaryExpContext ctx);
+	void enterBinaryExpression(RAGrammarParser.BinaryExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code singleUnaryExp}
-	 * labeled alternative in {@link RAGrammarParser#exp}.
+	 * Exit a parse tree produced by {@link RAGrammarParser#binaryExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitSingleUnaryExp(RAGrammarParser.SingleUnaryExpContext ctx);
+	void exitBinaryExpression(RAGrammarParser.BinaryExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code joinExp}
-	 * labeled alternative in {@link RAGrammarParser#exp}.
+	 * Enter a parse tree produced by {@link RAGrammarParser#comparisonOperator}.
 	 * @param ctx the parse tree
 	 */
-	void enterJoinExp(RAGrammarParser.JoinExpContext ctx);
+	void enterComparisonOperator(RAGrammarParser.ComparisonOperatorContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code joinExp}
-	 * labeled alternative in {@link RAGrammarParser#exp}.
+	 * Exit a parse tree produced by {@link RAGrammarParser#comparisonOperator}.
 	 * @param ctx the parse tree
 	 */
-	void exitJoinExp(RAGrammarParser.JoinExpContext ctx);
+	void exitComparisonOperator(RAGrammarParser.ComparisonOperatorContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code binaryExp}
-	 * labeled alternative in {@link RAGrammarParser#exp}.
+	 * Enter a parse tree produced by {@link RAGrammarParser#equalityOperator}.
 	 * @param ctx the parse tree
 	 */
-	void enterBinaryExp(RAGrammarParser.BinaryExpContext ctx);
+	void enterEqualityOperator(RAGrammarParser.EqualityOperatorContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code binaryExp}
-	 * labeled alternative in {@link RAGrammarParser#exp}.
+	 * Exit a parse tree produced by {@link RAGrammarParser#equalityOperator}.
 	 * @param ctx the parse tree
 	 */
-	void exitBinaryExp(RAGrammarParser.BinaryExpContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code singleTermExp}
-	 * labeled alternative in {@link RAGrammarParser#exp1}.
-	 * @param ctx the parse tree
-	 */
-	void enterSingleTermExp(RAGrammarParser.SingleTermExpContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code singleTermExp}
-	 * labeled alternative in {@link RAGrammarParser#exp1}.
-	 * @param ctx the parse tree
-	 */
-	void exitSingleTermExp(RAGrammarParser.SingleTermExpContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code joinTermExp}
-	 * labeled alternative in {@link RAGrammarParser#exp1}.
-	 * @param ctx the parse tree
-	 */
-	void enterJoinTermExp(RAGrammarParser.JoinTermExpContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code joinTermExp}
-	 * labeled alternative in {@link RAGrammarParser#exp1}.
-	 * @param ctx the parse tree
-	 */
-	void exitJoinTermExp(RAGrammarParser.JoinTermExpContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code binaryTermExp}
-	 * labeled alternative in {@link RAGrammarParser#exp1}.
-	 * @param ctx the parse tree
-	 */
-	void enterBinaryTermExp(RAGrammarParser.BinaryTermExpContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code binaryTermExp}
-	 * labeled alternative in {@link RAGrammarParser#exp1}.
-	 * @param ctx the parse tree
-	 */
-	void exitBinaryTermExp(RAGrammarParser.BinaryTermExpContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link RAGrammarParser#comp_atom}.
-	 * @param ctx the parse tree
-	 */
-	void enterComp_atom(RAGrammarParser.Comp_atomContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link RAGrammarParser#comp_atom}.
-	 * @param ctx the parse tree
-	 */
-	void exitComp_atom(RAGrammarParser.Comp_atomContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link RAGrammarParser#eq_atom}.
-	 * @param ctx the parse tree
-	 */
-	void enterEq_atom(RAGrammarParser.Eq_atomContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link RAGrammarParser#eq_atom}.
-	 * @param ctx the parse tree
-	 */
-	void exitEq_atom(RAGrammarParser.Eq_atomContext ctx);
+	void exitEqualityOperator(RAGrammarParser.EqualityOperatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link RAGrammarParser#value}.
 	 * @param ctx the parse tree
@@ -168,113 +98,83 @@ public interface RAGrammarListener extends ParseTreeListener {
 	 */
 	void exitValue(RAGrammarParser.ValueContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link RAGrammarParser#select_cond}.
+	 * Enter a parse tree produced by {@link RAGrammarParser#selectCondition}.
 	 * @param ctx the parse tree
 	 */
-	void enterSelect_cond(RAGrammarParser.Select_condContext ctx);
+	void enterSelectCondition(RAGrammarParser.SelectConditionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link RAGrammarParser#select_cond}.
+	 * Exit a parse tree produced by {@link RAGrammarParser#selectCondition}.
 	 * @param ctx the parse tree
 	 */
-	void exitSelect_cond(RAGrammarParser.Select_condContext ctx);
+	void exitSelectCondition(RAGrammarParser.SelectConditionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link RAGrammarParser#s_cond0}.
+	 * Enter a parse tree produced by {@link RAGrammarParser#joinCondition}.
 	 * @param ctx the parse tree
 	 */
-	void enterS_cond0(RAGrammarParser.S_cond0Context ctx);
+	void enterJoinCondition(RAGrammarParser.JoinConditionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link RAGrammarParser#s_cond0}.
+	 * Exit a parse tree produced by {@link RAGrammarParser#joinCondition}.
 	 * @param ctx the parse tree
 	 */
-	void exitS_cond0(RAGrammarParser.S_cond0Context ctx);
+	void exitJoinCondition(RAGrammarParser.JoinConditionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link RAGrammarParser#s_cond1}.
+	 * Enter a parse tree produced by {@link RAGrammarParser#condition}.
 	 * @param ctx the parse tree
 	 */
-	void enterS_cond1(RAGrammarParser.S_cond1Context ctx);
+	void enterCondition(RAGrammarParser.ConditionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link RAGrammarParser#s_cond1}.
+	 * Exit a parse tree produced by {@link RAGrammarParser#condition}.
 	 * @param ctx the parse tree
 	 */
-	void exitS_cond1(RAGrammarParser.S_cond1Context ctx);
+	void exitCondition(RAGrammarParser.ConditionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link RAGrammarParser#s_cond2}.
+	 * Enter a parse tree produced by {@link RAGrammarParser#notCondition}.
 	 * @param ctx the parse tree
 	 */
-	void enterS_cond2(RAGrammarParser.S_cond2Context ctx);
+	void enterNotCondition(RAGrammarParser.NotConditionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link RAGrammarParser#s_cond2}.
+	 * Exit a parse tree produced by {@link RAGrammarParser#notCondition}.
 	 * @param ctx the parse tree
 	 */
-	void exitS_cond2(RAGrammarParser.S_cond2Context ctx);
+	void exitNotCondition(RAGrammarParser.NotConditionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link RAGrammarParser#proj_cond}.
+	 * Enter a parse tree produced by {@link RAGrammarParser#booleanOperator}.
 	 * @param ctx the parse tree
 	 */
-	void enterProj_cond(RAGrammarParser.Proj_condContext ctx);
+	void enterBooleanOperator(RAGrammarParser.BooleanOperatorContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link RAGrammarParser#proj_cond}.
+	 * Exit a parse tree produced by {@link RAGrammarParser#booleanOperator}.
 	 * @param ctx the parse tree
 	 */
-	void exitProj_cond(RAGrammarParser.Proj_condContext ctx);
+	void exitBooleanOperator(RAGrammarParser.BooleanOperatorContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link RAGrammarParser#p_cond0}.
+	 * Enter a parse tree produced by {@link RAGrammarParser#booleanCondition}.
 	 * @param ctx the parse tree
 	 */
-	void enterP_cond0(RAGrammarParser.P_cond0Context ctx);
+	void enterBooleanCondition(RAGrammarParser.BooleanConditionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link RAGrammarParser#p_cond0}.
+	 * Exit a parse tree produced by {@link RAGrammarParser#booleanCondition}.
 	 * @param ctx the parse tree
 	 */
-	void exitP_cond0(RAGrammarParser.P_cond0Context ctx);
+	void exitBooleanCondition(RAGrammarParser.BooleanConditionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link RAGrammarParser#p_cond1}.
+	 * Enter a parse tree produced by {@link RAGrammarParser#attributeList}.
 	 * @param ctx the parse tree
 	 */
-	void enterP_cond1(RAGrammarParser.P_cond1Context ctx);
+	void enterAttributeList(RAGrammarParser.AttributeListContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link RAGrammarParser#p_cond1}.
+	 * Exit a parse tree produced by {@link RAGrammarParser#attributeList}.
 	 * @param ctx the parse tree
 	 */
-	void exitP_cond1(RAGrammarParser.P_cond1Context ctx);
+	void exitAttributeList(RAGrammarParser.AttributeListContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link RAGrammarParser#join_cond}.
+	 * Enter a parse tree produced by {@link RAGrammarParser#operatorOption}.
 	 * @param ctx the parse tree
 	 */
-	void enterJoin_cond(RAGrammarParser.Join_condContext ctx);
+	void enterOperatorOption(RAGrammarParser.OperatorOptionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link RAGrammarParser#join_cond}.
+	 * Exit a parse tree produced by {@link RAGrammarParser#operatorOption}.
 	 * @param ctx the parse tree
 	 */
-	void exitJoin_cond(RAGrammarParser.Join_condContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link RAGrammarParser#j_cond0}.
-	 * @param ctx the parse tree
-	 */
-	void enterJ_cond0(RAGrammarParser.J_cond0Context ctx);
-	/**
-	 * Exit a parse tree produced by {@link RAGrammarParser#j_cond0}.
-	 * @param ctx the parse tree
-	 */
-	void exitJ_cond0(RAGrammarParser.J_cond0Context ctx);
-	/**
-	 * Enter a parse tree produced by {@link RAGrammarParser#j_cond1}.
-	 * @param ctx the parse tree
-	 */
-	void enterJ_cond1(RAGrammarParser.J_cond1Context ctx);
-	/**
-	 * Exit a parse tree produced by {@link RAGrammarParser#j_cond1}.
-	 * @param ctx the parse tree
-	 */
-	void exitJ_cond1(RAGrammarParser.J_cond1Context ctx);
-	/**
-	 * Enter a parse tree produced by {@link RAGrammarParser#j_cond2}.
-	 * @param ctx the parse tree
-	 */
-	void enterJ_cond2(RAGrammarParser.J_cond2Context ctx);
-	/**
-	 * Exit a parse tree produced by {@link RAGrammarParser#j_cond2}.
-	 * @param ctx the parse tree
-	 */
-	void exitJ_cond2(RAGrammarParser.J_cond2Context ctx);
+	void exitOperatorOption(RAGrammarParser.OperatorOptionContext ctx);
 }

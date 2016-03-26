@@ -12,7 +12,7 @@ public class ColumnDoesNotExistHandler extends RAErrorHandler {
     private static String PATTERN = "column \"(.*)\" does not exist";
     private static String MESSAGE = "ERROR: Column '%s' does not exists";
     private static Class[] CLASSES = {
-            RAGrammarParser.UnaryExpContext.class
+            RAGrammarParser.UnaryExpressionContext.class
     };
 
     public ColumnDoesNotExistHandler() {
@@ -25,15 +25,18 @@ public class ColumnDoesNotExistHandler extends RAErrorHandler {
             return false;
         }
 
-        if (ctx.getRuleContext().getClass().equals(RAGrammarParser.UnaryExpContext.class)) {
+        if (ctx.getRuleContext().getClass().equals(RAGrammarParser.UnaryExpressionContext.class)) {
+            ParserRuleContext problemContext = (ParserRuleContext) ctx.getChild(0) // unaryOperator
+                    .getChild(1)  // operator option
+                    .getChild(1); // condtion
             query.setException(
                     new RAException(
-                            ((ParserRuleContext) ctx.getChild(1)).start,
-                            ((ParserRuleContext) ctx.getChild(1)).stop,
+                            problemContext.start,
+                            problemContext.stop,
                             printMessage()
                     )
             );
-        } else {
+        } else if (ctx.getRuleContext().getClass().equals(RAGrammarParser.UnitExpressionContext.class)) {
             // TODO error?
         }
 
