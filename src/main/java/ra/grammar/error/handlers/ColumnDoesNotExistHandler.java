@@ -26,14 +26,17 @@ public class ColumnDoesNotExistHandler extends RAErrorHandler {
         }
 
         if (ctx.getRuleContext().getClass().equals(RAGrammarParser.UnaryExpressionContext.class)) {
+            ParserRuleContext problemContext = (ParserRuleContext) ctx.getChild(0) // unaryOperator
+                    .getChild(1)  // operator option
+                    .getChild(1); // condtion
             query.setException(
                     new RAException(
-                            ((ParserRuleContext) ctx.getChild(1)).start,
-                            ((ParserRuleContext) ctx.getChild(1)).stop,
+                            problemContext.start,
+                            problemContext.stop,
                             printMessage()
                     )
             );
-        } else {
+        } else if (ctx.getRuleContext().getClass().equals(RAGrammarParser.UnitExpressionContext.class)) {
             // TODO error?
         }
 

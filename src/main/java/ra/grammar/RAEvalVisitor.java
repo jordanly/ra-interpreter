@@ -11,21 +11,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Arrays;
 
-/**
- * RAEvalVisitor contains methods that processes nodes in the AST created by
- * the grammar in 'RAGrammar.g4' (which represents an RA query) and converts
- * them to their corresponding SQL statement. This class will build the query
- * bottom-up.
- *
- * The main call to parse a query will be the method 'visitExp0' as exp0 will
- * always be the root of the RA query (as dictated by the grammar).
- *
- * RAEvalVisitor will attempt to validate each node by sending the command
- * generated to RAErrorParser (which executes each query and contains methods
- * for dealing with different types of exceptions. Right now, RAEvalVisitor will
- * only try to validate unit, unary, binary, and join nodes as they are the only
- * ones that currently generate non-trivial statements.
- */
 public class RAEvalVisitor extends RAGrammarBaseVisitor<String> {
     private int tempCount;
     private RA ra;
@@ -159,24 +144,28 @@ public class RAEvalVisitor extends RAGrammarBaseVisitor<String> {
 
     @Override
     public String visitUnaryExpression(RAGrammarParser.UnaryExpressionContext ctx) {
+        String command = null;
+
         if (ctx.getChildCount() == 1) { // only unit expression
-            return String.format(" ( SELECT * FROM %s %s ) ",
+            command = String.format(" ( SELECT * FROM %s %s ) ",
                     visit(ctx.getChild(0)), generateAlias());
         } else { // unary expression
-            return String.format(visit(ctx.getChild(0)),
+            command = String.format(visit(ctx.getChild(0)),
                     visit(ctx.getChild(1)), generateAlias());
         }
+
+        return errorParser.validate(query, command, ctx) ? command : "ERROR";
     }
 
     @Override
     public String visitUnaryOperator(RAGrammarParser.UnaryOperatorContext ctx) {
         switch (ctx.getChild(0).getText()) {
             case "\\select":
-                return "SELECT * FROM ( %s ) %s WHERE "
+                 return "SELECT * FROM ( %s ) %s WHERE "
                         + visit(ctx.getChild(1))
                         + " ";
             case "\\project":
-                return "SELECT DISTINCT "
+                 return "SELECT DISTINCT "
                         + visit(ctx.getChild(1))
                         + " FROM ( %s ) %s ";
             case "\\rename":
@@ -231,16 +220,20 @@ public class RAEvalVisitor extends RAGrammarBaseVisitor<String> {
                 return output.toString();
         }
 
-        return null; // TODO error?
+        return null; // error
     }
 
     @Override
     public String visitUnitExpression(RAGrammarParser.UnitExpressionContext ctx) {
+        String command = null;
+
         if (ctx.getChildCount() == 1) { // only table name
-            return ctx.getText();
+            command = String.format(" ( SELECT * FROM %s ) ", ctx.getText());
         } else { // paren expression
-            return String.format("( %s )", visit(ctx.getChild(1)));
+            command = String.format("( %s )", visit(ctx.getChild(1)));
         }
+
+        return errorParser.validate(query, command, ctx) ? command : "ERROR";
     }
 
     @Override

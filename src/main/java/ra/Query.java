@@ -52,6 +52,7 @@ public class Query {
         try {
             this.tree = parser.program();
             this.sqlQuery = new RAEvalVisitor(ra, this).visit(tree);
+            System.out.println(sqlQuery);
         } catch (RecognitionException e) {
             // Exception should already be set in query from listener, just return
             return;
