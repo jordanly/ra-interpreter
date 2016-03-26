@@ -10,12 +10,15 @@ import ra.grammar.gen.*;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RAEvalVisitor extends RAGrammarBaseVisitor<String> {
     private int tempCount;
     private RA ra;
     private RAErrorParser errorParser;
     private Query query;
+    private Map<String, String> variableMap;
 
     public RAEvalVisitor(RA ra, Query query) {
         this.ra = ra;
@@ -23,6 +26,7 @@ public class RAEvalVisitor extends RAGrammarBaseVisitor<String> {
 
         this.tempCount = 0;
         this.errorParser = new RAErrorParser(ra);
+        this.variableMap = new HashMap<>();
     }
 
     @Override
@@ -32,6 +36,16 @@ public class RAEvalVisitor extends RAGrammarBaseVisitor<String> {
         }
 
         return super.visit(tree);
+    }
+
+    @Override
+    public String visitAssignmentExpression(RAGrammarParser.AssignmentExpressionContext ctx) {
+        String variable = ctx.getChild(1).getText();
+        String command = visit(ctx.getChild(3));
+
+        variableMap.put(variable, command);
+
+        return null;
     }
 
     @Override
@@ -133,13 +147,34 @@ public class RAEvalVisitor extends RAGrammarBaseVisitor<String> {
     public String visitProgram(RAGrammarParser.ProgramContext ctx) {
         tempCount = 0;
 
+        // will only return the last query
+        // TODO return multiple queries, then display in frontend somehow
+        String sqlQuery = null;
+        for (int i = 0; i < ctx.getChildCount(); i++) {
+            if (!ctx.getChild(i).getClass().equals(RAGrammarParser.StatementContext.class)) {
+                continue;
+            }
+
+            RAGrammarParser.StatementContext statement = (RAGrammarParser.StatementContext) ctx.getChild(i);
+            if (statement.getChild(0).getClass().equals(RAGrammarParser.AssignmentExpressionContext.class)) {
+                visit(ctx.getChild(i));
+            } else if (statement.getChild(0).getClass().equals(RAGrammarParser.BinaryExpressionContext.class)) {
+                sqlQuery = visit(ctx.getChild(i));
+            }
+        }
+
         return String.format(" SELECT * FROM ( %s ) %s ",
-                visit(ctx.getChild(0)), generateAlias());
+                sqlQuery, generateAlias());
     }
 
     @Override
     public String visitSelectCondition(RAGrammarParser.SelectConditionContext ctx) {
         return ctx.getText();
+    }
+
+    @Override
+    public String visitStatement(RAGrammarParser.StatementContext ctx) {
+        return visit(ctx.getChild(0));
     }
 
     @Override
@@ -227,9 +262,15 @@ public class RAEvalVisitor extends RAGrammarBaseVisitor<String> {
     public String visitUnitExpression(RAGrammarParser.UnitExpressionContext ctx) {
         String command = null;
 
-        if (ctx.getChildCount() == 1) { // only table name
-            command = String.format(" ( SELECT * FROM %s ) ", ctx.getText());
-        } else { // paren expression
+        if (ctx.getChildCount() == 1) { // Only table/variable name
+            if (variableMap.containsKey(ctx.getText())) { // If it is a variable
+                command = String.format(" ( SELECT * FROM ( %s ) %s ) ",
+                        variableMap.get(ctx.getText()), generateAlias());
+            } else {
+                command = String.format(" ( SELECT * FROM %s ) ",
+                        ctx.getText(), generateAlias());
+            }
+        } else { // Paren expression
             command = String.format("( %s )", visit(ctx.getChild(1)));
         }
 
