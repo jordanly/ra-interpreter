@@ -6,11 +6,10 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.json.JSONObject;
 import ra.ast.RAASTNode;
-import ra.ast.RAASTVisitor;
 import ra.exceptions.RAException;
+import ra.grammar.RAEvalVisitor;
 import ra.grammar.error.RAErrorListener;
 import ra.grammar.error.RAErrorStrategy;
-import ra.grammar.RAEvalVisitor;
 import ra.grammar.gen.*;
 import ra.util.ResultSetUtilities;
 
@@ -51,9 +50,8 @@ public class Query {
         parser.addErrorListener(new RAErrorListener(this));
 
         try {
-            this.tree = parser.exp0();
+            this.tree = parser.program();
             this.sqlQuery = new RAEvalVisitor(ra, this).visit(tree);
-            this.astTree = new RAASTVisitor().visit(tree);
         } catch (RecognitionException e) {
             // Exception should already be set in query from listener, just return
             return;

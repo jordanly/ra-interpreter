@@ -23,15 +23,16 @@ public class RAGrammarParser extends Parser {
 		LT=21, LTE=22, GT=23, GTE=24, NOT_EQUALS=25, INT=26, FLOAT=27, STRING_LITERAL=28, 
 		ID=29, WHITESPACE=30, COMMENT=31, SINGLELINE_COMMENT=32;
 	public static final int
-		RULE_exp0 = 0, RULE_exp_unit = 1, RULE_exp_unary = 2, RULE_exp = 3, RULE_exp1 = 4, 
-		RULE_comparisonOperator = 5, RULE_equalityOperator = 6, RULE_value = 7, 
-		RULE_selectCondition = 8, RULE_joinCondition = 9, RULE_condition = 10, 
-		RULE_notCondition = 11, RULE_andCondition = 12, RULE_orCondition = 13, 
-		RULE_attributeList = 14, RULE_operatorOption = 15;
+		RULE_program = 0, RULE_unitExpression = 1, RULE_unaryOperator = 2, RULE_unaryExpression = 3, 
+		RULE_binaryOperator = 4, RULE_binaryExpression = 5, RULE_comparisonOperator = 6, 
+		RULE_equalityOperator = 7, RULE_value = 8, RULE_selectCondition = 9, RULE_joinCondition = 10, 
+		RULE_condition = 11, RULE_notCondition = 12, RULE_booleanOperator = 13, 
+		RULE_booleanCondition = 14, RULE_attributeList = 15, RULE_operatorOption = 16;
 	public static final String[] ruleNames = {
-		"exp0", "exp_unit", "exp_unary", "exp", "exp1", "comparisonOperator", 
-		"equalityOperator", "value", "selectCondition", "joinCondition", "condition", 
-		"notCondition", "andCondition", "orCondition", "attributeList", "operatorOption"
+		"program", "unitExpression", "unaryOperator", "unaryExpression", "binaryOperator", 
+		"binaryExpression", "comparisonOperator", "equalityOperator", "value", 
+		"selectCondition", "joinCondition", "condition", "notCondition", "booleanOperator", 
+		"booleanCondition", "attributeList", "operatorOption"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -96,42 +97,42 @@ public class RAGrammarParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-	public static class Exp0Context extends ParserRuleContext {
-		public ExpContext exp() {
-			return getRuleContext(ExpContext.class,0);
+	public static class ProgramContext extends ParserRuleContext {
+		public BinaryExpressionContext binaryExpression() {
+			return getRuleContext(BinaryExpressionContext.class,0);
 		}
 		public TerminalNode STATEMENT_TERMINATOR() { return getToken(RAGrammarParser.STATEMENT_TERMINATOR, 0); }
 		public TerminalNode EOF() { return getToken(RAGrammarParser.EOF, 0); }
-		public Exp0Context(ParserRuleContext parent, int invokingState) {
+		public ProgramContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_exp0; }
+		@Override public int getRuleIndex() { return RULE_program; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterExp0(this);
+			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterProgram(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitExp0(this);
+			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitProgram(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitExp0(this);
+			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitProgram(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final Exp0Context exp0() throws RecognitionException {
-		Exp0Context _localctx = new Exp0Context(_ctx, getState());
-		enterRule(_localctx, 0, RULE_exp0);
+	public final ProgramContext program() throws RecognitionException {
+		ProgramContext _localctx = new ProgramContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_program);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(32);
-			exp();
-			setState(33);
-			match(STATEMENT_TERMINATOR);
 			setState(34);
+			binaryExpression();
+			setState(35);
+			match(STATEMENT_TERMINATOR);
+			setState(36);
 			match(EOF);
 			}
 		}
@@ -146,79 +147,53 @@ public class RAGrammarParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Exp_unitContext extends ParserRuleContext {
-		public Exp_unitContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_exp_unit; }
-	 
-		public Exp_unitContext() { }
-		public void copyFrom(Exp_unitContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class ParenExpContext extends Exp_unitContext {
+	public static class UnitExpressionContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(RAGrammarParser.ID, 0); }
 		public TerminalNode LEFT_PAREN() { return getToken(RAGrammarParser.LEFT_PAREN, 0); }
-		public Exp1Context exp1() {
-			return getRuleContext(Exp1Context.class,0);
+		public BinaryExpressionContext binaryExpression() {
+			return getRuleContext(BinaryExpressionContext.class,0);
 		}
 		public TerminalNode RIGHT_PAREN() { return getToken(RAGrammarParser.RIGHT_PAREN, 0); }
-		public ParenExpContext(Exp_unitContext ctx) { copyFrom(ctx); }
+		public UnitExpressionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_unitExpression; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterParenExp(this);
+			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterUnitExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitParenExp(this);
+			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitUnitExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitParenExp(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class TableExpContext extends Exp_unitContext {
-		public TerminalNode ID() { return getToken(RAGrammarParser.ID, 0); }
-		public TableExpContext(Exp_unitContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterTableExp(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitTableExp(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitTableExp(this);
+			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitUnitExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final Exp_unitContext exp_unit() throws RecognitionException {
-		Exp_unitContext _localctx = new Exp_unitContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_exp_unit);
+	public final UnitExpressionContext unitExpression() throws RecognitionException {
+		UnitExpressionContext _localctx = new UnitExpressionContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_unitExpression);
 		try {
-			setState(41);
+			setState(43);
 			switch (_input.LA(1)) {
 			case ID:
-				_localctx = new TableExpContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(36);
+				setState(38);
 				match(ID);
 				}
 				break;
 			case LEFT_PAREN:
-				_localctx = new ParenExpContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(37);
-				match(LEFT_PAREN);
-				setState(38);
-				exp1();
 				setState(39);
+				match(LEFT_PAREN);
+				setState(40);
+				binaryExpression();
+				setState(41);
 				match(RIGHT_PAREN);
 				}
 				break;
@@ -237,111 +212,63 @@ public class RAGrammarParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Exp_unaryContext extends ParserRuleContext {
-		public Exp_unaryContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_exp_unary; }
-	 
-		public Exp_unaryContext() { }
-		public void copyFrom(Exp_unaryContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class UnitExpContext extends Exp_unaryContext {
-		public Exp_unitContext exp_unit() {
-			return getRuleContext(Exp_unitContext.class,0);
-		}
-		public UnitExpContext(Exp_unaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterUnitExp(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitUnitExp(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitUnitExp(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class UnaryExpContext extends Exp_unaryContext {
+	public static class UnaryOperatorContext extends ParserRuleContext {
 		public TerminalNode SELECT() { return getToken(RAGrammarParser.SELECT, 0); }
 		public OperatorOptionContext operatorOption() {
 			return getRuleContext(OperatorOptionContext.class,0);
 		}
-		public Exp_unaryContext exp_unary() {
-			return getRuleContext(Exp_unaryContext.class,0);
-		}
 		public TerminalNode PROJECT() { return getToken(RAGrammarParser.PROJECT, 0); }
 		public TerminalNode RENAME() { return getToken(RAGrammarParser.RENAME, 0); }
-		public UnaryExpContext(Exp_unaryContext ctx) { copyFrom(ctx); }
+		public UnaryOperatorContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_unaryOperator; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterUnaryExp(this);
+			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterUnaryOperator(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitUnaryExp(this);
+			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitUnaryOperator(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitUnaryExp(this);
+			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitUnaryOperator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final Exp_unaryContext exp_unary() throws RecognitionException {
-		Exp_unaryContext _localctx = new Exp_unaryContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_exp_unary);
+	public final UnaryOperatorContext unaryOperator() throws RecognitionException {
+		UnaryOperatorContext _localctx = new UnaryOperatorContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_unaryOperator);
 		try {
-			setState(56);
+			setState(51);
 			switch (_input.LA(1)) {
-			case LEFT_PAREN:
-			case ID:
-				_localctx = new UnitExpContext(_localctx);
+			case SELECT:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(43);
-				exp_unit();
-				}
-				break;
-			case SELECT:
-				_localctx = new UnaryExpContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(44);
-				match(SELECT);
 				setState(45);
-				operatorOption();
+				match(SELECT);
 				setState(46);
-				exp_unary();
+				operatorOption();
 				}
 				break;
 			case PROJECT:
-				_localctx = new UnaryExpContext(_localctx);
-				enterOuterAlt(_localctx, 3);
+				enterOuterAlt(_localctx, 2);
 				{
-				setState(48);
+				setState(47);
 				match(PROJECT);
-				setState(49);
+				setState(48);
 				operatorOption();
-				setState(50);
-				exp_unary();
 				}
 				break;
 			case RENAME:
-				_localctx = new UnaryExpContext(_localctx);
-				enterOuterAlt(_localctx, 4);
+				enterOuterAlt(_localctx, 3);
 				{
-				setState(52);
+				setState(49);
 				match(RENAME);
-				setState(53);
+				setState(50);
 				operatorOption();
-				setState(54);
-				exp_unary();
 				}
 				break;
 			default:
@@ -359,176 +286,151 @@ public class RAGrammarParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ExpContext extends ParserRuleContext {
-		public ExpContext(ParserRuleContext parent, int invokingState) {
+	public static class UnaryExpressionContext extends ParserRuleContext {
+		public UnitExpressionContext unitExpression() {
+			return getRuleContext(UnitExpressionContext.class,0);
+		}
+		public UnaryOperatorContext unaryOperator() {
+			return getRuleContext(UnaryOperatorContext.class,0);
+		}
+		public UnaryExpressionContext unaryExpression() {
+			return getRuleContext(UnaryExpressionContext.class,0);
+		}
+		public UnaryExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_exp; }
-	 
-		public ExpContext() { }
-		public void copyFrom(ExpContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class SingleUnaryExpContext extends ExpContext {
-		public Exp_unaryContext exp_unary() {
-			return getRuleContext(Exp_unaryContext.class,0);
-		}
-		public SingleUnaryExpContext(ExpContext ctx) { copyFrom(ctx); }
+		@Override public int getRuleIndex() { return RULE_unaryExpression; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterSingleUnaryExp(this);
+			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterUnaryExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitSingleUnaryExp(this);
+			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitUnaryExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitSingleUnaryExp(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class BinaryExpContext extends ExpContext {
-		public List<Exp_unaryContext> exp_unary() {
-			return getRuleContexts(Exp_unaryContext.class);
-		}
-		public Exp_unaryContext exp_unary(int i) {
-			return getRuleContext(Exp_unaryContext.class,i);
-		}
-		public TerminalNode JOIN() { return getToken(RAGrammarParser.JOIN, 0); }
-		public TerminalNode CROSS() { return getToken(RAGrammarParser.CROSS, 0); }
-		public TerminalNode UNION() { return getToken(RAGrammarParser.UNION, 0); }
-		public TerminalNode DIFF() { return getToken(RAGrammarParser.DIFF, 0); }
-		public TerminalNode INTERSECT() { return getToken(RAGrammarParser.INTERSECT, 0); }
-		public BinaryExpContext(ExpContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterBinaryExp(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitBinaryExp(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitBinaryExp(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class JoinExpContext extends ExpContext {
-		public List<Exp_unaryContext> exp_unary() {
-			return getRuleContexts(Exp_unaryContext.class);
-		}
-		public Exp_unaryContext exp_unary(int i) {
-			return getRuleContext(Exp_unaryContext.class,i);
-		}
-		public TerminalNode JOIN() { return getToken(RAGrammarParser.JOIN, 0); }
-		public OperatorOptionContext operatorOption() {
-			return getRuleContext(OperatorOptionContext.class,0);
-		}
-		public JoinExpContext(ExpContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterJoinExp(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitJoinExp(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitJoinExp(this);
+			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitUnaryExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final ExpContext exp() throws RecognitionException {
-		ExpContext _localctx = new ExpContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_exp);
+	public final UnaryExpressionContext unaryExpression() throws RecognitionException {
+		UnaryExpressionContext _localctx = new UnaryExpressionContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_unaryExpression);
 		try {
-			setState(84);
-			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
-			case 1:
-				_localctx = new SingleUnaryExpContext(_localctx);
+			setState(57);
+			switch (_input.LA(1)) {
+			case LEFT_PAREN:
+			case ID:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(58);
-				exp_unary();
+				setState(53);
+				unitExpression();
+				}
+				break;
+			case SELECT:
+			case PROJECT:
+			case RENAME:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(54);
+				unaryOperator();
+				setState(55);
+				unaryExpression();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class BinaryOperatorContext extends ParserRuleContext {
+		public TerminalNode JOIN() { return getToken(RAGrammarParser.JOIN, 0); }
+		public OperatorOptionContext operatorOption() {
+			return getRuleContext(OperatorOptionContext.class,0);
+		}
+		public TerminalNode CROSS() { return getToken(RAGrammarParser.CROSS, 0); }
+		public TerminalNode UNION() { return getToken(RAGrammarParser.UNION, 0); }
+		public TerminalNode DIFF() { return getToken(RAGrammarParser.DIFF, 0); }
+		public TerminalNode INTERSECT() { return getToken(RAGrammarParser.INTERSECT, 0); }
+		public BinaryOperatorContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_binaryOperator; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterBinaryOperator(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitBinaryOperator(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitBinaryOperator(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final BinaryOperatorContext binaryOperator() throws RecognitionException {
+		BinaryOperatorContext _localctx = new BinaryOperatorContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_binaryOperator);
+		try {
+			setState(66);
+			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(59);
+				match(JOIN);
+				setState(60);
+				operatorOption();
 				}
 				break;
 			case 2:
-				_localctx = new JoinExpContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(59);
-				exp_unary();
-				setState(60);
-				match(JOIN);
 				setState(61);
-				operatorOption();
-				setState(62);
-				exp_unary();
+				match(JOIN);
 				}
 				break;
 			case 3:
-				_localctx = new BinaryExpContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(64);
-				exp_unary();
-				setState(65);
-				match(JOIN);
-				setState(66);
-				exp_unary();
+				setState(62);
+				match(CROSS);
 				}
 				break;
 			case 4:
-				_localctx = new BinaryExpContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(68);
-				exp_unary();
-				setState(69);
-				match(CROSS);
-				setState(70);
-				exp_unary();
+				setState(63);
+				match(UNION);
 				}
 				break;
 			case 5:
-				_localctx = new BinaryExpContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(72);
-				exp_unary();
-				setState(73);
-				match(UNION);
-				setState(74);
-				exp_unary();
+				setState(64);
+				match(DIFF);
 				}
 				break;
 			case 6:
-				_localctx = new BinaryExpContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(76);
-				exp_unary();
-				setState(77);
-				match(DIFF);
-				setState(78);
-				exp_unary();
-				}
-				break;
-			case 7:
-				_localctx = new BinaryExpContext(_localctx);
-				enterOuterAlt(_localctx, 7);
-				{
-				setState(80);
-				exp_unary();
-				setState(81);
+				setState(65);
 				match(INTERSECT);
-				setState(82);
-				exp_unary();
 				}
 				break;
 			}
@@ -544,178 +446,63 @@ public class RAGrammarParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Exp1Context extends ParserRuleContext {
-		public Exp1Context(ParserRuleContext parent, int invokingState) {
+	public static class BinaryExpressionContext extends ParserRuleContext {
+		public List<UnaryExpressionContext> unaryExpression() {
+			return getRuleContexts(UnaryExpressionContext.class);
+		}
+		public UnaryExpressionContext unaryExpression(int i) {
+			return getRuleContext(UnaryExpressionContext.class,i);
+		}
+		public List<BinaryOperatorContext> binaryOperator() {
+			return getRuleContexts(BinaryOperatorContext.class);
+		}
+		public BinaryOperatorContext binaryOperator(int i) {
+			return getRuleContext(BinaryOperatorContext.class,i);
+		}
+		public BinaryExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_exp1; }
-	 
-		public Exp1Context() { }
-		public void copyFrom(Exp1Context ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class BinaryTermExpContext extends Exp1Context {
-		public ExpContext exp() {
-			return getRuleContext(ExpContext.class,0);
-		}
-		public TerminalNode JOIN() { return getToken(RAGrammarParser.JOIN, 0); }
-		public Exp_unaryContext exp_unary() {
-			return getRuleContext(Exp_unaryContext.class,0);
-		}
-		public TerminalNode CROSS() { return getToken(RAGrammarParser.CROSS, 0); }
-		public TerminalNode UNION() { return getToken(RAGrammarParser.UNION, 0); }
-		public TerminalNode DIFF() { return getToken(RAGrammarParser.DIFF, 0); }
-		public TerminalNode INTERSECT() { return getToken(RAGrammarParser.INTERSECT, 0); }
-		public BinaryTermExpContext(Exp1Context ctx) { copyFrom(ctx); }
+		@Override public int getRuleIndex() { return RULE_binaryExpression; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterBinaryTermExp(this);
+			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterBinaryExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitBinaryTermExp(this);
+			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitBinaryExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitBinaryTermExp(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class JoinTermExpContext extends Exp1Context {
-		public ExpContext exp() {
-			return getRuleContext(ExpContext.class,0);
-		}
-		public TerminalNode JOIN() { return getToken(RAGrammarParser.JOIN, 0); }
-		public OperatorOptionContext operatorOption() {
-			return getRuleContext(OperatorOptionContext.class,0);
-		}
-		public Exp_unaryContext exp_unary() {
-			return getRuleContext(Exp_unaryContext.class,0);
-		}
-		public JoinTermExpContext(Exp1Context ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterJoinTermExp(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitJoinTermExp(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitJoinTermExp(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class SingleTermExpContext extends Exp1Context {
-		public ExpContext exp() {
-			return getRuleContext(ExpContext.class,0);
-		}
-		public SingleTermExpContext(Exp1Context ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterSingleTermExp(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitSingleTermExp(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitSingleTermExp(this);
+			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitBinaryExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final Exp1Context exp1() throws RecognitionException {
-		Exp1Context _localctx = new Exp1Context(_ctx, getState());
-		enterRule(_localctx, 8, RULE_exp1);
+	public final BinaryExpressionContext binaryExpression() throws RecognitionException {
+		BinaryExpressionContext _localctx = new BinaryExpressionContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_binaryExpression);
+		int _la;
 		try {
-			setState(112);
-			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
-			case 1:
-				_localctx = new SingleTermExpContext(_localctx);
-				enterOuterAlt(_localctx, 1);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(68);
+			unaryExpression();
+			setState(74);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << JOIN) | (1L << CROSS) | (1L << UNION) | (1L << DIFF) | (1L << INTERSECT))) != 0)) {
 				{
-				setState(86);
-				exp();
-				}
-				break;
-			case 2:
-				_localctx = new JoinTermExpContext(_localctx);
-				enterOuterAlt(_localctx, 2);
 				{
-				setState(87);
-				exp();
-				setState(88);
-				match(JOIN);
-				setState(89);
-				operatorOption();
-				setState(90);
-				exp_unary();
+				setState(69);
+				binaryOperator();
+				setState(70);
+				unaryExpression();
 				}
-				break;
-			case 3:
-				_localctx = new BinaryTermExpContext(_localctx);
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(92);
-				exp();
-				setState(93);
-				match(JOIN);
-				setState(94);
-				exp_unary();
 				}
-				break;
-			case 4:
-				_localctx = new BinaryTermExpContext(_localctx);
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(96);
-				exp();
-				setState(97);
-				match(CROSS);
-				setState(98);
-				exp_unary();
-				}
-				break;
-			case 5:
-				_localctx = new BinaryTermExpContext(_localctx);
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(100);
-				exp();
-				setState(101);
-				match(UNION);
-				setState(102);
-				exp_unary();
-				}
-				break;
-			case 6:
-				_localctx = new BinaryTermExpContext(_localctx);
-				enterOuterAlt(_localctx, 6);
-				{
-				setState(104);
-				exp();
-				setState(105);
-				match(DIFF);
-				setState(106);
-				exp_unary();
-				}
-				break;
-			case 7:
-				_localctx = new BinaryTermExpContext(_localctx);
-				enterOuterAlt(_localctx, 7);
-				{
-				setState(108);
-				exp();
-				setState(109);
-				match(INTERSECT);
-				setState(110);
-				exp_unary();
-				}
-				break;
+				setState(76);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -755,12 +542,12 @@ public class RAGrammarParser extends Parser {
 
 	public final ComparisonOperatorContext comparisonOperator() throws RecognitionException {
 		ComparisonOperatorContext _localctx = new ComparisonOperatorContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_comparisonOperator);
+		enterRule(_localctx, 12, RULE_comparisonOperator);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(114);
+			setState(77);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LT) | (1L << LTE) | (1L << GT) | (1L << GTE))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -804,12 +591,12 @@ public class RAGrammarParser extends Parser {
 
 	public final EqualityOperatorContext equalityOperator() throws RecognitionException {
 		EqualityOperatorContext _localctx = new EqualityOperatorContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_equalityOperator);
+		enterRule(_localctx, 14, RULE_equalityOperator);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(116);
+			setState(79);
 			_la = _input.LA(1);
 			if ( !(_la==EQUALS || _la==NOT_EQUALS) ) {
 			_errHandler.recoverInline(this);
@@ -853,12 +640,12 @@ public class RAGrammarParser extends Parser {
 
 	public final ValueContext value() throws RecognitionException {
 		ValueContext _localctx = new ValueContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_value);
+		enterRule(_localctx, 16, RULE_value);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(118);
+			setState(81);
 			_la = _input.LA(1);
 			if ( !(_la==INT || _la==FLOAT) ) {
 			_errHandler.recoverInline(this);
@@ -915,62 +702,62 @@ public class RAGrammarParser extends Parser {
 
 	public final SelectConditionContext selectCondition() throws RecognitionException {
 		SelectConditionContext _localctx = new SelectConditionContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_selectCondition);
+		enterRule(_localctx, 18, RULE_selectCondition);
 		try {
-			setState(139);
-			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
+			setState(102);
+			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(120);
+				setState(83);
 				match(ID);
-				setState(121);
+				setState(84);
 				comparisonOperator();
-				setState(122);
+				setState(85);
 				value();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(124);
+				setState(87);
 				match(ID);
-				setState(125);
+				setState(88);
 				comparisonOperator();
-				setState(126);
+				setState(89);
 				match(ID);
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(128);
+				setState(91);
 				match(ID);
-				setState(129);
+				setState(92);
 				equalityOperator();
-				setState(130);
+				setState(93);
 				match(ID);
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(132);
+				setState(95);
 				match(ID);
-				setState(133);
+				setState(96);
 				equalityOperator();
-				setState(134);
+				setState(97);
 				match(STRING_LITERAL);
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(136);
+				setState(99);
 				match(ID);
-				setState(137);
+				setState(100);
 				match(LIKE);
-				setState(138);
+				setState(101);
 				match(STRING_LITERAL);
 				}
 				break;
@@ -1019,29 +806,29 @@ public class RAGrammarParser extends Parser {
 
 	public final JoinConditionContext joinCondition() throws RecognitionException {
 		JoinConditionContext _localctx = new JoinConditionContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_joinCondition);
+		enterRule(_localctx, 20, RULE_joinCondition);
 		try {
-			setState(149);
-			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
+			setState(112);
+			switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(141);
+				setState(104);
 				match(ID);
-				setState(142);
+				setState(105);
 				equalityOperator();
-				setState(143);
+				setState(106);
 				match(ID);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(145);
+				setState(108);
 				match(ID);
-				setState(146);
+				setState(109);
 				comparisonOperator();
-				setState(147);
+				setState(110);
 				match(ID);
 				}
 				break;
@@ -1086,21 +873,21 @@ public class RAGrammarParser extends Parser {
 
 	public final ConditionContext condition() throws RecognitionException {
 		ConditionContext _localctx = new ConditionContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_condition);
+		enterRule(_localctx, 22, RULE_condition);
 		try {
-			setState(153);
-			switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
+			setState(116);
+			switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(151);
+				setState(114);
 				selectCondition();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(152);
+				setState(115);
 				joinCondition();
 				}
 				break;
@@ -1143,28 +930,22 @@ public class RAGrammarParser extends Parser {
 
 	public final NotConditionContext notCondition() throws RecognitionException {
 		NotConditionContext _localctx = new NotConditionContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_notCondition);
+		enterRule(_localctx, 24, RULE_notCondition);
+		int _la;
 		try {
-			setState(158);
-			switch (_input.LA(1)) {
-			case ID:
-				enterOuterAlt(_localctx, 1);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(119);
+			_la = _input.LA(1);
+			if (_la==NOT) {
 				{
-				setState(155);
-				condition();
-				}
-				break;
-			case NOT:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(156);
+				setState(118);
 				match(NOT);
-				setState(157);
-				condition();
 				}
-				break;
-			default:
-				throw new NoViableAltException(this);
+			}
+
+			setState(121);
+			condition();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1178,73 +959,42 @@ public class RAGrammarParser extends Parser {
 		return _localctx;
 	}
 
-	public static class AndConditionContext extends ParserRuleContext {
-		public List<NotConditionContext> notCondition() {
-			return getRuleContexts(NotConditionContext.class);
-		}
-		public NotConditionContext notCondition(int i) {
-			return getRuleContext(NotConditionContext.class,i);
-		}
-		public List<TerminalNode> AND() { return getTokens(RAGrammarParser.AND); }
-		public TerminalNode AND(int i) {
-			return getToken(RAGrammarParser.AND, i);
-		}
-		public AndConditionContext(ParserRuleContext parent, int invokingState) {
+	public static class BooleanOperatorContext extends ParserRuleContext {
+		public TerminalNode AND() { return getToken(RAGrammarParser.AND, 0); }
+		public TerminalNode OR() { return getToken(RAGrammarParser.OR, 0); }
+		public BooleanOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_andCondition; }
+		@Override public int getRuleIndex() { return RULE_booleanOperator; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterAndCondition(this);
+			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterBooleanOperator(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitAndCondition(this);
+			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitBooleanOperator(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitAndCondition(this);
+			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitBooleanOperator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final AndConditionContext andCondition() throws RecognitionException {
-		AndConditionContext _localctx = new AndConditionContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_andCondition);
+	public final BooleanOperatorContext booleanOperator() throws RecognitionException {
+		BooleanOperatorContext _localctx = new BooleanOperatorContext(_ctx, getState());
+		enterRule(_localctx, 26, RULE_booleanOperator);
 		int _la;
 		try {
-			setState(169);
-			switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
-			case 1:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(160);
-				notCondition();
-				}
-				break;
-			case 2:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(161);
-				notCondition();
-				setState(166);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				while (_la==AND) {
-					{
-					{
-					setState(162);
-					match(AND);
-					setState(163);
-					notCondition();
-					}
-					}
-					setState(168);
-					_errHandler.sync(this);
-					_la = _input.LA(1);
-				}
-				}
-				break;
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(123);
+			_la = _input.LA(1);
+			if ( !(_la==AND || _la==OR) ) {
+			_errHandler.recoverInline(this);
+			} else {
+				consume();
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -1258,73 +1008,63 @@ public class RAGrammarParser extends Parser {
 		return _localctx;
 	}
 
-	public static class OrConditionContext extends ParserRuleContext {
+	public static class BooleanConditionContext extends ParserRuleContext {
 		public List<NotConditionContext> notCondition() {
 			return getRuleContexts(NotConditionContext.class);
 		}
 		public NotConditionContext notCondition(int i) {
 			return getRuleContext(NotConditionContext.class,i);
 		}
-		public List<TerminalNode> OR() { return getTokens(RAGrammarParser.OR); }
-		public TerminalNode OR(int i) {
-			return getToken(RAGrammarParser.OR, i);
+		public List<BooleanOperatorContext> booleanOperator() {
+			return getRuleContexts(BooleanOperatorContext.class);
 		}
-		public OrConditionContext(ParserRuleContext parent, int invokingState) {
+		public BooleanOperatorContext booleanOperator(int i) {
+			return getRuleContext(BooleanOperatorContext.class,i);
+		}
+		public BooleanConditionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_orCondition; }
+		@Override public int getRuleIndex() { return RULE_booleanCondition; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterOrCondition(this);
+			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).enterBooleanCondition(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitOrCondition(this);
+			if ( listener instanceof RAGrammarListener ) ((RAGrammarListener)listener).exitBooleanCondition(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitOrCondition(this);
+			if ( visitor instanceof RAGrammarVisitor ) return ((RAGrammarVisitor<? extends T>)visitor).visitBooleanCondition(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final OrConditionContext orCondition() throws RecognitionException {
-		OrConditionContext _localctx = new OrConditionContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_orCondition);
+	public final BooleanConditionContext booleanCondition() throws RecognitionException {
+		BooleanConditionContext _localctx = new BooleanConditionContext(_ctx, getState());
+		enterRule(_localctx, 28, RULE_booleanCondition);
 		int _la;
 		try {
-			setState(180);
-			switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
-			case 1:
-				enterOuterAlt(_localctx, 1);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(125);
+			notCondition();
+			setState(131);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==AND || _la==OR) {
 				{
-				setState(171);
+				{
+				setState(126);
+				booleanOperator();
+				setState(127);
 				notCondition();
 				}
-				break;
-			case 2:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(172);
-				notCondition();
-				setState(177);
+				}
+				setState(133);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while (_la==OR) {
-					{
-					{
-					setState(173);
-					match(OR);
-					setState(174);
-					notCondition();
-					}
-					}
-					setState(179);
-					_errHandler.sync(this);
-					_la = _input.LA(1);
-				}
-				}
-				break;
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -1368,26 +1108,26 @@ public class RAGrammarParser extends Parser {
 
 	public final AttributeListContext attributeList() throws RecognitionException {
 		AttributeListContext _localctx = new AttributeListContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_attributeList);
+		enterRule(_localctx, 30, RULE_attributeList);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(182);
+			setState(134);
 			match(ID);
-			setState(187);
+			setState(139);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==COMMA) {
 				{
 				{
-				setState(183);
+				setState(135);
 				match(COMMA);
-				setState(184);
+				setState(136);
 				match(ID);
 				}
 				}
-				setState(189);
+				setState(141);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -1406,13 +1146,10 @@ public class RAGrammarParser extends Parser {
 
 	public static class OperatorOptionContext extends ParserRuleContext {
 		public TerminalNode LEFT_BRACE() { return getToken(RAGrammarParser.LEFT_BRACE, 0); }
-		public SelectConditionContext selectCondition() {
-			return getRuleContext(SelectConditionContext.class,0);
+		public BooleanConditionContext booleanCondition() {
+			return getRuleContext(BooleanConditionContext.class,0);
 		}
 		public TerminalNode RIGHT_BRACE() { return getToken(RAGrammarParser.RIGHT_BRACE, 0); }
-		public JoinConditionContext joinCondition() {
-			return getRuleContext(JoinConditionContext.class,0);
-		}
 		public AttributeListContext attributeList() {
 			return getRuleContext(AttributeListContext.class,0);
 		}
@@ -1437,40 +1174,29 @@ public class RAGrammarParser extends Parser {
 
 	public final OperatorOptionContext operatorOption() throws RecognitionException {
 		OperatorOptionContext _localctx = new OperatorOptionContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_operatorOption);
+		enterRule(_localctx, 32, RULE_operatorOption);
 		try {
-			setState(202);
-			switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
+			setState(150);
+			switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(190);
+				setState(142);
 				match(LEFT_BRACE);
-				setState(191);
-				selectCondition();
-				setState(192);
+				setState(143);
+				booleanCondition();
+				setState(144);
 				match(RIGHT_BRACE);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(194);
+				setState(146);
 				match(LEFT_BRACE);
-				setState(195);
-				joinCondition();
-				setState(196);
-				match(RIGHT_BRACE);
-				}
-				break;
-			case 3:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(198);
-				match(LEFT_BRACE);
-				setState(199);
+				setState(147);
 				attributeList();
-				setState(200);
+				setState(148);
 				match(RIGHT_BRACE);
 				}
 				break;
@@ -1488,70 +1214,48 @@ public class RAGrammarParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\"\u00cf\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\"\u009b\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
-		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\3\2\3\2\3"+
-		"\2\3\2\3\3\3\3\3\3\3\3\3\3\5\3,\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3"+
-		"\4\3\4\3\4\3\4\3\4\5\4;\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3"+
-		"\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5W\n"+
-		"\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6"+
-		"\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6s\n\6\3\7\3\7\3\b\3\b\3\t\3\t"+
-		"\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3"+
-		"\n\3\n\5\n\u008e\n\n\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\5\13\u0098"+
-		"\n\13\3\f\3\f\5\f\u009c\n\f\3\r\3\r\3\r\5\r\u00a1\n\r\3\16\3\16\3\16\3"+
-		"\16\7\16\u00a7\n\16\f\16\16\16\u00aa\13\16\5\16\u00ac\n\16\3\17\3\17\3"+
-		"\17\3\17\7\17\u00b2\n\17\f\17\16\17\u00b5\13\17\5\17\u00b7\n\17\3\20\3"+
-		"\20\3\20\7\20\u00bc\n\20\f\20\16\20\u00bf\13\20\3\21\3\21\3\21\3\21\3"+
-		"\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\5\21\u00cd\n\21\3\21\2\2\22\2\4"+
-		"\6\b\n\f\16\20\22\24\26\30\32\34\36 \2\5\3\2\27\32\4\2\26\26\33\33\3\2"+
-		"\34\35\u00dc\2\"\3\2\2\2\4+\3\2\2\2\6:\3\2\2\2\bV\3\2\2\2\nr\3\2\2\2\f"+
-		"t\3\2\2\2\16v\3\2\2\2\20x\3\2\2\2\22\u008d\3\2\2\2\24\u0097\3\2\2\2\26"+
-		"\u009b\3\2\2\2\30\u00a0\3\2\2\2\32\u00ab\3\2\2\2\34\u00b6\3\2\2\2\36\u00b8"+
-		"\3\2\2\2 \u00cc\3\2\2\2\"#\5\b\5\2#$\7\25\2\2$%\7\2\2\3%\3\3\2\2\2&,\7"+
-		"\37\2\2\'(\7\17\2\2()\5\n\6\2)*\7\20\2\2*,\3\2\2\2+&\3\2\2\2+\'\3\2\2"+
-		"\2,\5\3\2\2\2-;\5\4\3\2./\7\7\2\2/\60\5 \21\2\60\61\5\6\4\2\61;\3\2\2"+
-		"\2\62\63\7\b\2\2\63\64\5 \21\2\64\65\5\6\4\2\65;\3\2\2\2\66\67\7\16\2"+
-		"\2\678\5 \21\289\5\6\4\29;\3\2\2\2:-\3\2\2\2:.\3\2\2\2:\62\3\2\2\2:\66"+
-		"\3\2\2\2;\7\3\2\2\2<W\5\6\4\2=>\5\6\4\2>?\7\t\2\2?@\5 \21\2@A\5\6\4\2"+
-		"AW\3\2\2\2BC\5\6\4\2CD\7\t\2\2DE\5\6\4\2EW\3\2\2\2FG\5\6\4\2GH\7\n\2\2"+
-		"HI\5\6\4\2IW\3\2\2\2JK\5\6\4\2KL\7\13\2\2LM\5\6\4\2MW\3\2\2\2NO\5\6\4"+
-		"\2OP\7\f\2\2PQ\5\6\4\2QW\3\2\2\2RS\5\6\4\2ST\7\r\2\2TU\5\6\4\2UW\3\2\2"+
-		"\2V<\3\2\2\2V=\3\2\2\2VB\3\2\2\2VF\3\2\2\2VJ\3\2\2\2VN\3\2\2\2VR\3\2\2"+
-		"\2W\t\3\2\2\2Xs\5\b\5\2YZ\5\b\5\2Z[\7\t\2\2[\\\5 \21\2\\]\5\6\4\2]s\3"+
-		"\2\2\2^_\5\b\5\2_`\7\t\2\2`a\5\6\4\2as\3\2\2\2bc\5\b\5\2cd\7\n\2\2de\5"+
-		"\6\4\2es\3\2\2\2fg\5\b\5\2gh\7\13\2\2hi\5\6\4\2is\3\2\2\2jk\5\b\5\2kl"+
-		"\7\f\2\2lm\5\6\4\2ms\3\2\2\2no\5\b\5\2op\7\r\2\2pq\5\6\4\2qs\3\2\2\2r"+
-		"X\3\2\2\2rY\3\2\2\2r^\3\2\2\2rb\3\2\2\2rf\3\2\2\2rj\3\2\2\2rn\3\2\2\2"+
-		"s\13\3\2\2\2tu\t\2\2\2u\r\3\2\2\2vw\t\3\2\2w\17\3\2\2\2xy\t\4\2\2y\21"+
-		"\3\2\2\2z{\7\37\2\2{|\5\f\7\2|}\5\20\t\2}\u008e\3\2\2\2~\177\7\37\2\2"+
-		"\177\u0080\5\f\7\2\u0080\u0081\7\37\2\2\u0081\u008e\3\2\2\2\u0082\u0083"+
-		"\7\37\2\2\u0083\u0084\5\16\b\2\u0084\u0085\7\37\2\2\u0085\u008e\3\2\2"+
-		"\2\u0086\u0087\7\37\2\2\u0087\u0088\5\16\b\2\u0088\u0089\7\36\2\2\u0089"+
-		"\u008e\3\2\2\2\u008a\u008b\7\37\2\2\u008b\u008c\7\6\2\2\u008c\u008e\7"+
-		"\36\2\2\u008dz\3\2\2\2\u008d~\3\2\2\2\u008d\u0082\3\2\2\2\u008d\u0086"+
-		"\3\2\2\2\u008d\u008a\3\2\2\2\u008e\23\3\2\2\2\u008f\u0090\7\37\2\2\u0090"+
-		"\u0091\5\16\b\2\u0091\u0092\7\37\2\2\u0092\u0098\3\2\2\2\u0093\u0094\7"+
-		"\37\2\2\u0094\u0095\5\f\7\2\u0095\u0096\7\37\2\2\u0096\u0098\3\2\2\2\u0097"+
-		"\u008f\3\2\2\2\u0097\u0093\3\2\2\2\u0098\25\3\2\2\2\u0099\u009c\5\22\n"+
-		"\2\u009a\u009c\5\24\13\2\u009b\u0099\3\2\2\2\u009b\u009a\3\2\2\2\u009c"+
-		"\27\3\2\2\2\u009d\u00a1\5\26\f\2\u009e\u009f\7\5\2\2\u009f\u00a1\5\26"+
-		"\f\2\u00a0\u009d\3\2\2\2\u00a0\u009e\3\2\2\2\u00a1\31\3\2\2\2\u00a2\u00ac"+
-		"\5\30\r\2\u00a3\u00a8\5\30\r\2\u00a4\u00a5\7\3\2\2\u00a5\u00a7\5\30\r"+
-		"\2\u00a6\u00a4\3\2\2\2\u00a7\u00aa\3\2\2\2\u00a8\u00a6\3\2\2\2\u00a8\u00a9"+
-		"\3\2\2\2\u00a9\u00ac\3\2\2\2\u00aa\u00a8\3\2\2\2\u00ab\u00a2\3\2\2\2\u00ab"+
-		"\u00a3\3\2\2\2\u00ac\33\3\2\2\2\u00ad\u00b7\5\30\r\2\u00ae\u00b3\5\30"+
-		"\r\2\u00af\u00b0\7\4\2\2\u00b0\u00b2\5\30\r\2\u00b1\u00af\3\2\2\2\u00b2"+
-		"\u00b5\3\2\2\2\u00b3\u00b1\3\2\2\2\u00b3\u00b4\3\2\2\2\u00b4\u00b7\3\2"+
-		"\2\2\u00b5\u00b3\3\2\2\2\u00b6\u00ad\3\2\2\2\u00b6\u00ae\3\2\2\2\u00b7"+
-		"\35\3\2\2\2\u00b8\u00bd\7\37\2\2\u00b9\u00ba\7\23\2\2\u00ba\u00bc\7\37"+
-		"\2\2\u00bb\u00b9\3\2\2\2\u00bc\u00bf\3\2\2\2\u00bd\u00bb\3\2\2\2\u00bd"+
-		"\u00be\3\2\2\2\u00be\37\3\2\2\2\u00bf\u00bd\3\2\2\2\u00c0\u00c1\7\21\2"+
-		"\2\u00c1\u00c2\5\22\n\2\u00c2\u00c3\7\22\2\2\u00c3\u00cd\3\2\2\2\u00c4"+
-		"\u00c5\7\21\2\2\u00c5\u00c6\5\24\13\2\u00c6\u00c7\7\22\2\2\u00c7\u00cd"+
-		"\3\2\2\2\u00c8\u00c9\7\21\2\2\u00c9\u00ca\5\36\20\2\u00ca\u00cb\7\22\2"+
-		"\2\u00cb\u00cd\3\2\2\2\u00cc\u00c0\3\2\2\2\u00cc\u00c4\3\2\2\2\u00cc\u00c8"+
-		"\3\2\2\2\u00cd!\3\2\2\2\20+:Vr\u008d\u0097\u009b\u00a0\u00a8\u00ab\u00b3"+
-		"\u00b6\u00bd\u00cc";
+		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
+		"\3\2\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\5\3.\n\3\3\4\3\4\3\4\3\4\3\4\3\4"+
+		"\5\4\66\n\4\3\5\3\5\3\5\3\5\5\5<\n\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6E"+
+		"\n\6\3\7\3\7\3\7\3\7\7\7K\n\7\f\7\16\7N\13\7\3\b\3\b\3\t\3\t\3\n\3\n\3"+
+		"\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3"+
+		"\13\3\13\3\13\3\13\3\13\5\13i\n\13\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\5\f"+
+		"s\n\f\3\r\3\r\5\rw\n\r\3\16\5\16z\n\16\3\16\3\16\3\17\3\17\3\20\3\20\3"+
+		"\20\3\20\7\20\u0084\n\20\f\20\16\20\u0087\13\20\3\21\3\21\3\21\7\21\u008c"+
+		"\n\21\f\21\16\21\u008f\13\21\3\22\3\22\3\22\3\22\3\22\3\22\3\22\3\22\5"+
+		"\22\u0099\n\22\3\22\2\2\23\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"\2"+
+		"\6\3\2\27\32\4\2\26\26\33\33\3\2\34\35\3\2\3\4\u009d\2$\3\2\2\2\4-\3\2"+
+		"\2\2\6\65\3\2\2\2\b;\3\2\2\2\nD\3\2\2\2\fF\3\2\2\2\16O\3\2\2\2\20Q\3\2"+
+		"\2\2\22S\3\2\2\2\24h\3\2\2\2\26r\3\2\2\2\30v\3\2\2\2\32y\3\2\2\2\34}\3"+
+		"\2\2\2\36\177\3\2\2\2 \u0088\3\2\2\2\"\u0098\3\2\2\2$%\5\f\7\2%&\7\25"+
+		"\2\2&\'\7\2\2\3\'\3\3\2\2\2(.\7\37\2\2)*\7\17\2\2*+\5\f\7\2+,\7\20\2\2"+
+		",.\3\2\2\2-(\3\2\2\2-)\3\2\2\2.\5\3\2\2\2/\60\7\7\2\2\60\66\5\"\22\2\61"+
+		"\62\7\b\2\2\62\66\5\"\22\2\63\64\7\16\2\2\64\66\5\"\22\2\65/\3\2\2\2\65"+
+		"\61\3\2\2\2\65\63\3\2\2\2\66\7\3\2\2\2\67<\5\4\3\289\5\6\4\29:\5\b\5\2"+
+		":<\3\2\2\2;\67\3\2\2\2;8\3\2\2\2<\t\3\2\2\2=>\7\t\2\2>E\5\"\22\2?E\7\t"+
+		"\2\2@E\7\n\2\2AE\7\13\2\2BE\7\f\2\2CE\7\r\2\2D=\3\2\2\2D?\3\2\2\2D@\3"+
+		"\2\2\2DA\3\2\2\2DB\3\2\2\2DC\3\2\2\2E\13\3\2\2\2FL\5\b\5\2GH\5\n\6\2H"+
+		"I\5\b\5\2IK\3\2\2\2JG\3\2\2\2KN\3\2\2\2LJ\3\2\2\2LM\3\2\2\2M\r\3\2\2\2"+
+		"NL\3\2\2\2OP\t\2\2\2P\17\3\2\2\2QR\t\3\2\2R\21\3\2\2\2ST\t\4\2\2T\23\3"+
+		"\2\2\2UV\7\37\2\2VW\5\16\b\2WX\5\22\n\2Xi\3\2\2\2YZ\7\37\2\2Z[\5\16\b"+
+		"\2[\\\7\37\2\2\\i\3\2\2\2]^\7\37\2\2^_\5\20\t\2_`\7\37\2\2`i\3\2\2\2a"+
+		"b\7\37\2\2bc\5\20\t\2cd\7\36\2\2di\3\2\2\2ef\7\37\2\2fg\7\6\2\2gi\7\36"+
+		"\2\2hU\3\2\2\2hY\3\2\2\2h]\3\2\2\2ha\3\2\2\2he\3\2\2\2i\25\3\2\2\2jk\7"+
+		"\37\2\2kl\5\20\t\2lm\7\37\2\2ms\3\2\2\2no\7\37\2\2op\5\16\b\2pq\7\37\2"+
+		"\2qs\3\2\2\2rj\3\2\2\2rn\3\2\2\2s\27\3\2\2\2tw\5\24\13\2uw\5\26\f\2vt"+
+		"\3\2\2\2vu\3\2\2\2w\31\3\2\2\2xz\7\5\2\2yx\3\2\2\2yz\3\2\2\2z{\3\2\2\2"+
+		"{|\5\30\r\2|\33\3\2\2\2}~\t\5\2\2~\35\3\2\2\2\177\u0085\5\32\16\2\u0080"+
+		"\u0081\5\34\17\2\u0081\u0082\5\32\16\2\u0082\u0084\3\2\2\2\u0083\u0080"+
+		"\3\2\2\2\u0084\u0087\3\2\2\2\u0085\u0083\3\2\2\2\u0085\u0086\3\2\2\2\u0086"+
+		"\37\3\2\2\2\u0087\u0085\3\2\2\2\u0088\u008d\7\37\2\2\u0089\u008a\7\23"+
+		"\2\2\u008a\u008c\7\37\2\2\u008b\u0089\3\2\2\2\u008c\u008f\3\2\2\2\u008d"+
+		"\u008b\3\2\2\2\u008d\u008e\3\2\2\2\u008e!\3\2\2\2\u008f\u008d\3\2\2\2"+
+		"\u0090\u0091\7\21\2\2\u0091\u0092\5\36\20\2\u0092\u0093\7\22\2\2\u0093"+
+		"\u0099\3\2\2\2\u0094\u0095\7\21\2\2\u0095\u0096\5 \21\2\u0096\u0097\7"+
+		"\22\2\2\u0097\u0099\3\2\2\2\u0098\u0090\3\2\2\2\u0098\u0094\3\2\2\2\u0099"+
+		"#\3\2\2\2\16-\65;DLhrvy\u0085\u008d\u0098";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

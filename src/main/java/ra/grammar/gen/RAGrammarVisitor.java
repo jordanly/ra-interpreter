@@ -11,81 +11,41 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface RAGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link RAGrammarParser#exp0}.
+	 * Visit a parse tree produced by {@link RAGrammarParser#program}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExp0(RAGrammarParser.Exp0Context ctx);
+	T visitProgram(RAGrammarParser.ProgramContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code tableExp}
-	 * labeled alternative in {@link RAGrammarParser#exp_unit}.
+	 * Visit a parse tree produced by {@link RAGrammarParser#unitExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTableExp(RAGrammarParser.TableExpContext ctx);
+	T visitUnitExpression(RAGrammarParser.UnitExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code parenExp}
-	 * labeled alternative in {@link RAGrammarParser#exp_unit}.
+	 * Visit a parse tree produced by {@link RAGrammarParser#unaryOperator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitParenExp(RAGrammarParser.ParenExpContext ctx);
+	T visitUnaryOperator(RAGrammarParser.UnaryOperatorContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code unitExp}
-	 * labeled alternative in {@link RAGrammarParser#exp_unary}.
+	 * Visit a parse tree produced by {@link RAGrammarParser#unaryExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitUnitExp(RAGrammarParser.UnitExpContext ctx);
+	T visitUnaryExpression(RAGrammarParser.UnaryExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code unaryExp}
-	 * labeled alternative in {@link RAGrammarParser#exp_unary}.
+	 * Visit a parse tree produced by {@link RAGrammarParser#binaryOperator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitUnaryExp(RAGrammarParser.UnaryExpContext ctx);
+	T visitBinaryOperator(RAGrammarParser.BinaryOperatorContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code singleUnaryExp}
-	 * labeled alternative in {@link RAGrammarParser#exp}.
+	 * Visit a parse tree produced by {@link RAGrammarParser#binaryExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSingleUnaryExp(RAGrammarParser.SingleUnaryExpContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code joinExp}
-	 * labeled alternative in {@link RAGrammarParser#exp}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitJoinExp(RAGrammarParser.JoinExpContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code binaryExp}
-	 * labeled alternative in {@link RAGrammarParser#exp}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBinaryExp(RAGrammarParser.BinaryExpContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code singleTermExp}
-	 * labeled alternative in {@link RAGrammarParser#exp1}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSingleTermExp(RAGrammarParser.SingleTermExpContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code joinTermExp}
-	 * labeled alternative in {@link RAGrammarParser#exp1}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitJoinTermExp(RAGrammarParser.JoinTermExpContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code binaryTermExp}
-	 * labeled alternative in {@link RAGrammarParser#exp1}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBinaryTermExp(RAGrammarParser.BinaryTermExpContext ctx);
+	T visitBinaryExpression(RAGrammarParser.BinaryExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link RAGrammarParser#comparisonOperator}.
 	 * @param ctx the parse tree
@@ -129,17 +89,17 @@ public interface RAGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNotCondition(RAGrammarParser.NotConditionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link RAGrammarParser#andCondition}.
+	 * Visit a parse tree produced by {@link RAGrammarParser#booleanOperator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAndCondition(RAGrammarParser.AndConditionContext ctx);
+	T visitBooleanOperator(RAGrammarParser.BooleanOperatorContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link RAGrammarParser#orCondition}.
+	 * Visit a parse tree produced by {@link RAGrammarParser#booleanCondition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitOrCondition(RAGrammarParser.OrConditionContext ctx);
+	T visitBooleanCondition(RAGrammarParser.BooleanConditionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link RAGrammarParser#attributeList}.
 	 * @param ctx the parse tree

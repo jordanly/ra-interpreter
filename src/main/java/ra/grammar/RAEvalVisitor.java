@@ -1,6 +1,5 @@
 package ra.grammar;
 
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import ra.Query;
 import ra.exceptions.RAException;
@@ -51,7 +50,102 @@ public class RAEvalVisitor extends RAGrammarBaseVisitor<String> {
     }
 
     @Override
-    public String visitExp0(RAGrammarParser.Exp0Context ctx) {
+    public String visitAttributeList(RAGrammarParser.AttributeListContext ctx) {
+        return ctx.getText();
+    }
+
+    @Override
+    public String visitBinaryExpression(RAGrammarParser.BinaryExpressionContext ctx) {
+        // generate first child
+        String current = visit(ctx.getChild(0));
+
+        // get operation and second child, repeat
+        for (int i = 1; i < ctx.getChildCount(); i += 2) {
+            String operation = visit(ctx.getChild(i)); // i will always be operation
+            current = String.format(operation,
+                    current, generateAlias(),
+                    visit(ctx.getChild(i + 1)), generateAlias()
+            );
+        }
+
+        return current;
+    }
+
+    @Override
+    public String visitBinaryOperator(RAGrammarParser.BinaryOperatorContext ctx) {
+        if (ctx.getChildCount() > 1) { // join with condition
+            return "( %s ) %s JOIN ( %s ) %s ON (" + visit(ctx.getChild(1)) + ")";
+        } else { // all other binary operators
+            switch (ctx.getChild(0).getText()) {
+                case "\\join":
+                    return "( %s ) %s NATURAL JOIN ( %s ) %s";
+                case "\\cross":
+                    return "( %s ) %s CROSS JOIN ( %s ) %s";
+                case "\\union":
+                    return "SELECT * FROM ( %s ) %s UNION SELECT * FROM ( %s ) %s";
+                case "\\diff":
+                    return "SELECT * FROM ( %s ) %s EXCEPT SELECT * FROM ( %s ) %s";
+                case "\\intersect":
+                    return "SELECT * FROM ( %s ) %s INTERSECT SELECT * FROM ( %s ) %s";
+            }
+        }
+
+        return null; // error TODO replace with something
+    }
+
+    @Override
+    public String visitBooleanCondition(RAGrammarParser.BooleanConditionContext ctx) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(visit(ctx.getChild(0)));
+
+        for (int i = 1; i < ctx.getChildCount(); i++) {
+            sb.append(" " + visit(ctx.getChild(i)) + " ");
+        }
+
+        return sb.toString();
+    }
+
+    @Override
+    public String visitBooleanOperator(RAGrammarParser.BooleanOperatorContext ctx) {
+        return ctx.getText();
+    }
+
+    @Override
+    public String visitComparisonOperator(RAGrammarParser.ComparisonOperatorContext ctx) {
+        return ctx.getText();
+    }
+
+    @Override
+    public String visitCondition(RAGrammarParser.ConditionContext ctx) {
+        return visit(ctx.getChild(0));
+    }
+
+    @Override
+    public String visitEqualityOperator(RAGrammarParser.EqualityOperatorContext ctx) {
+        return ctx.getText();
+    }
+
+    @Override
+    public String visitJoinCondition(RAGrammarParser.JoinConditionContext ctx) {
+        return ctx.getText();
+    }
+
+    @Override
+    public String visitNotCondition(RAGrammarParser.NotConditionContext ctx) {
+        if (ctx.getChildCount() > 1) { // there is a not
+            return " NOT " + visit(ctx.getChild(1));
+        } else {
+            return visit(ctx.getChild(0));
+        }
+    }
+
+    @Override
+    public String visitOperatorOption(RAGrammarParser.OperatorOptionContext ctx) {
+        return visit(ctx.getChild(1)); // child 1 is the option
+    }
+
+    @Override
+    public String visitProgram(RAGrammarParser.ProgramContext ctx) {
         tempCount = 0;
 
         return String.format(" SELECT * FROM ( %s ) %s ",
@@ -59,45 +153,37 @@ public class RAEvalVisitor extends RAGrammarBaseVisitor<String> {
     }
 
     @Override
-    public String visitTableExp(RAGrammarParser.TableExpContext ctx) {
-        return ctx.getText().toLowerCase();
+    public String visitSelectCondition(RAGrammarParser.SelectConditionContext ctx) {
+        return ctx.getText();
     }
 
     @Override
-    public String visitParenExp(RAGrammarParser.ParenExpContext ctx) {
-        return String.format(" ( %s ) ", visit(ctx.getChild(1)));
+    public String visitUnaryExpression(RAGrammarParser.UnaryExpressionContext ctx) {
+        if (ctx.getChildCount() == 1) { // only unit expression
+            return String.format(" ( SELECT * FROM %s %s ) ",
+                    visit(ctx.getChild(0)), generateAlias());
+        } else { // unary expression
+            return String.format(visit(ctx.getChild(0)),
+                    visit(ctx.getChild(1)), generateAlias());
+        }
     }
 
     @Override
-    public String visitUnitExp(RAGrammarParser.UnitExpContext ctx) {
-        // Corresponds with #unitExp directive not unit_exp rule
-        String command = String.format(" ( SELECT * FROM %s %s ) ",
-                visit(ctx.getChild(0)), generateAlias());
-
-        return (command != null && errorParser.validate(query, command, ctx) ? command : "ERROR");
-    }
-
-    @Override
-    public String visitUnaryExp(RAGrammarParser.UnaryExpContext ctx) {
-        String operation = ctx.getChild(0).getText();
-
-        String command = null;
-        switch (operation) {
+    public String visitUnaryOperator(RAGrammarParser.UnaryOperatorContext ctx) {
+        switch (ctx.getChild(0).getText()) {
             case "\\select":
-                command = String.format("SELECT * FROM ( %s ) %s WHERE %s ",
-                        visit(ctx.getChild(2)), generateAlias(),
-                        extractOperatorOption(ctx.getChild(1).getText(), operation, ctx));
-
-                break;
+                return "SELECT * FROM ( %s ) %s WHERE "
+                        + visit(ctx.getChild(1))
+                        + " ";
             case "\\project":
-                command = String.format("SELECT DISTINCT %s FROM ( %s ) %s ",
-                        extractOperatorOption(ctx.getChild(1).getText(), operation, ctx),
-                        visit(ctx.getChild(2)), generateAlias());
-                break;
+                return "SELECT DISTINCT "
+                        + visit(ctx.getChild(1))
+                        + " FROM ( %s ) %s ";
             case "\\rename":
                 // Get the columns that we will be renaming from the subquery
+                // TODO had to get creative with getting parent's second expressiong for renaming, find new way to do this?
                 String subQuery = String.format("SELECT * FROM ( %s ) %s ;",
-                        visit(ctx.getChild(2)),
+                        visit(ctx.getParent().getChild(1)), // get table to be renamed
                         generateAlias()
                 );
                 ResultSetMetaData rsmd;
@@ -118,11 +204,7 @@ public class RAEvalVisitor extends RAGrammarBaseVisitor<String> {
                 }
 
                 // Make sure number of attributes are same
-                String[] newNames = extractOperatorOption(
-                        ctx.getChild(1).getText(),
-                        operation,
-                        ctx
-                ).split(",");
+                String[] newNames = visit(ctx.getChild(1)).split(",");
                 if (newNames.length != columnNames.length) {
                     query.setException(new RAException(
                             ctx.getStart(),
@@ -143,110 +225,27 @@ public class RAEvalVisitor extends RAGrammarBaseVisitor<String> {
                 }
                 output.deleteCharAt(output.length() - 1); // Delete last ','
                 output.append(
-                        String.format(" FROM ( %s ) %s",
-                                visit(ctx.getChild(2)), generateAlias())
+                        " FROM ( %s ) %s"
                 );
 
-                command = output.toString();
-                break;
+                return output.toString();
         }
 
-        return (command != null && errorParser.validate(query, command, ctx) ? command : "ERROR");
+        return null; // TODO error?
     }
 
     @Override
-    public String visitSingleUnaryExp(RAGrammarParser.SingleUnaryExpContext ctx) {
-        return visit(ctx.getChild(0));
-    }
-
-    @Override
-    public String visitJoinExp(RAGrammarParser.JoinExpContext ctx) {
-        String left = visit(ctx.getChild(0));
-        String condition = extractOperatorOption(
-                ctx.getChild(2).getText(),
-                ctx.getChild(1).getText(),
-                ctx
-        );
-        String right = visit(ctx.getChild(3));
-
-        return generateJoinStatement(left, condition, right);
-    }
-
-    @Override
-    public String visitBinaryExp(RAGrammarParser.BinaryExpContext ctx) {
-        String left = visit(ctx.getChild(0));
-        String operation = ctx.getChild(1).getText();
-        String right = visit(ctx.getChild(2));
-
-        return generateBinaryStatement(left, right, operation, ctx);
-    }
-
-    @Override
-    public String visitSingleTermExp(RAGrammarParser.SingleTermExpContext ctx) {
-        return visit(ctx.getChild(0));
-    }
-
-    @Override
-    public String visitJoinTermExp(RAGrammarParser.JoinTermExpContext ctx) {
-        String left = visit(ctx.getChild(0));
-        String condition = extractOperatorOption(
-                ctx.getChild(2).getText(),
-                ctx.getChild(1).getText(),
-                ctx
-        );
-        String right = visit(ctx.getChild(3));
-
-        return generateJoinStatement(left, condition, right);
-    }
-
-    private String generateJoinStatement(String left, String condition, String right) {
-        return String.format("( %s ) %s JOIN ( %s ) %s ON ( %s )",
-                left, generateAlias(),
-                right, generateAlias(),
-                condition);
-    }
-
-    @Override
-    public String visitBinaryTermExp(RAGrammarParser.BinaryTermExpContext ctx) {
-        String operation = ctx.getChild(1).getText();
-        String left = visit(ctx.getChild(0));
-        String right = visit(ctx.getChild(2));
-
-        return generateBinaryStatement(left, right, operation, ctx);
-    }
-
-    private String generateBinaryStatement(String leftChild, String rightChild,
-                                           String operation, ParserRuleContext ctx) {
-        String command = null;
-        switch (operation) {
-            case "\\join":
-                command = String.format("( %s ) %s NATURAL JOIN ( %s ) %s",
-                        leftChild, generateAlias(),
-                        rightChild, generateAlias());
-                break;
-            case "\\cross":
-                command = String.format("( %s ) %s CROSS JOIN ( %s ) %s",
-                        leftChild, generateAlias(),
-                        rightChild, generateAlias());
-                break;
-            case "\\union":
-                command = String.format("SELECT * FROM ( %s ) %s UNION SELECT * FROM ( %s ) %s",
-                        leftChild, generateAlias(),
-                        rightChild, generateAlias());
-                break;
-            case "\\diff":
-                command = String.format("SELECT * FROM ( %s ) %s EXCEPT SELECT * FROM ( %s ) %s",
-                        leftChild, generateAlias(),
-                        rightChild, generateAlias());
-                break;
-            case "\\intersect":
-                command = String.format("SELECT * FROM ( %s ) %s INTERSECT SELECT * FROM ( %s ) %s",
-                        leftChild, generateAlias(),
-                        rightChild, generateAlias());
-                break;
+    public String visitUnitExpression(RAGrammarParser.UnitExpressionContext ctx) {
+        if (ctx.getChildCount() == 1) { // only table name
+            return ctx.getText();
+        } else { // paren expression
+            return String.format("( %s )", visit(ctx.getChild(1)));
         }
+    }
 
-        return (command != null && errorParser.validate(query, command, ctx) ? command : "ERROR");
+    @Override
+    public String visitValue(RAGrammarParser.ValueContext ctx) {
+        return ctx.getText();
     }
 
     /**
@@ -260,9 +259,5 @@ public class RAEvalVisitor extends RAGrammarBaseVisitor<String> {
      */
     private String generateAlias() {
         return "t" + tempCount++;
-    }
-
-    private String extractOperatorOption(String val, String operation, ParserRuleContext ctx) {
-        return val.substring(2, val.length() - 1); // remove "_{" + "}"
     }
 }

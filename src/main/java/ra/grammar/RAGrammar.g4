@@ -59,39 +59,36 @@ SINGLELINE_COMMENT: '//' ~('\r'|'\n')*  -> channel(HIDDEN) ;
 
 // Parser Rules
 
-exp0
-    : exp STATEMENT_TERMINATOR EOF ;
+program
+    : binaryExpression STATEMENT_TERMINATOR EOF ;
 
-exp_unit
-    : ID                                        #tableExp
-    | LEFT_PAREN exp1 RIGHT_PAREN               #parenExp
+unitExpression
+    : ID
+    | LEFT_PAREN binaryExpression RIGHT_PAREN
     ;
 
-exp_unary
-    : exp_unit                                  #unitExp
-    | SELECT operatorOption exp_unary           #unaryExp
-    | PROJECT operatorOption exp_unary          #unaryExp
-    | RENAME operatorOption exp_unary           #unaryExp
+unaryOperator
+    : SELECT operatorOption
+    | PROJECT operatorOption
+    | RENAME operatorOption
     ;
 
-exp
-    : exp_unary                                 #singleUnaryExp
-    | exp_unary JOIN operatorOption exp_unary   #joinExp
-    | exp_unary JOIN exp_unary                  #binaryExp
-    | exp_unary CROSS exp_unary                 #binaryExp
-    | exp_unary UNION exp_unary                 #binaryExp
-    | exp_unary DIFF exp_unary                  #binaryExp
-    | exp_unary INTERSECT exp_unary             #binaryExp
+unaryExpression
+    : unitExpression
+    | unaryOperator unaryExpression
     ;
 
-exp1
-    : exp                                       #singleTermExp
-    | exp JOIN operatorOption exp_unary         #joinTermExp
-    | exp JOIN exp_unary                        #binaryTermExp
-    | exp CROSS exp_unary                       #binaryTermExp
-    | exp UNION exp_unary                       #binaryTermExp
-    | exp DIFF exp_unary                        #binaryTermExp
-    | exp INTERSECT exp_unary                   #binaryTermExp
+binaryOperator
+    : JOIN operatorOption
+    | JOIN
+    | CROSS
+    | UNION
+    | DIFF
+    | INTERSECT
+    ;
+
+binaryExpression
+    : unaryExpression ( binaryOperator unaryExpression )*
     ;
 
 comparisonOperator
@@ -130,18 +127,16 @@ condition
     ;
 
 notCondition
-    : condition
-    | NOT condition
+    : ( NOT )? condition
     ;
 
-andCondition
-    : notCondition
-    | notCondition ( AND notCondition )*
+booleanOperator
+    : AND
+    | OR
     ;
 
-orCondition
-    : notCondition
-    | notCondition ( OR notCondition )*
+booleanCondition
+    : notCondition ( booleanOperator notCondition )*
     ;
 
 attributeList
@@ -149,8 +144,7 @@ attributeList
     ;
 
 operatorOption
-    : LEFT_BRACE selectCondition RIGHT_BRACE
-    | LEFT_BRACE joinCondition RIGHT_BRACE
+    : LEFT_BRACE booleanCondition RIGHT_BRACE
     | LEFT_BRACE attributeList RIGHT_BRACE
     ;
 
