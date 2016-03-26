@@ -10,6 +10,7 @@ AND : 'and' ;
 OR  : 'or' ;
 NOT : 'not' ;
 LIKE : 'like' ;
+LET : 'let' ;
 
 // Base RA commands
 SELECT : '\\select' ;
@@ -60,7 +61,16 @@ SINGLELINE_COMMENT: '//' ~('\r'|'\n')*  -> channel(HIDDEN) ;
 // Parser Rules
 
 program
-    : binaryExpression STATEMENT_TERMINATOR EOF ;
+    : ( statement )+ EOF ;
+
+statement
+    : binaryExpression STATEMENT_TERMINATOR
+    | assignmentExpression STATEMENT_TERMINATOR
+    ;
+
+assignmentExpression
+    : LET ID EQUALS binaryExpression
+    ;
 
 unitExpression
     : ID

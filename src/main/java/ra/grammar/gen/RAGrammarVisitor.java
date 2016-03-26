@@ -17,6 +17,18 @@ public interface RAGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(RAGrammarParser.ProgramContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link RAGrammarParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(RAGrammarParser.StatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link RAGrammarParser#assignmentExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignmentExpression(RAGrammarParser.AssignmentExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link RAGrammarParser#unitExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

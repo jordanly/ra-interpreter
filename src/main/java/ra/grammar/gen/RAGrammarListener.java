@@ -18,6 +18,26 @@ public interface RAGrammarListener extends ParseTreeListener {
 	 */
 	void exitProgram(RAGrammarParser.ProgramContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link RAGrammarParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatement(RAGrammarParser.StatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link RAGrammarParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatement(RAGrammarParser.StatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link RAGrammarParser#assignmentExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignmentExpression(RAGrammarParser.AssignmentExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link RAGrammarParser#assignmentExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignmentExpression(RAGrammarParser.AssignmentExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link RAGrammarParser#unitExpression}.
 	 * @param ctx the parse tree
 	 */
