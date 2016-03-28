@@ -2,6 +2,7 @@ package ra.exceptions;
 
 import org.antlr.v4.runtime.Token;
 import org.json.JSONObject;
+import ra.grammar.error.handlers.RAErrorHandler;
 
 public class RAException extends Exception {
     private int lineStart = -1;
@@ -9,6 +10,7 @@ public class RAException extends Exception {
     private int lineEnd = -1;
     private int charEnd = -1;
     private String message;
+    private RAErrorHandler errorHandler; // If exception is created by an errorHandler, used for testing
 
     public RAException(String message) {
         this.message = message;
@@ -30,6 +32,14 @@ public class RAException extends Exception {
         this.lineEnd = end.getLine();
         this.charEnd = end.getCharPositionInLine() + end.getText().length();
         this.message = message;
+    }
+
+    public RAErrorHandler getErrorHandler() {
+        return errorHandler;
+    }
+
+    public void setErrorHandler(RAErrorHandler errorHandler) {
+        this.errorHandler = errorHandler;
     }
 
     public JSONObject asJson() {

@@ -4,14 +4,14 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import ra.Query;
 import ra.RA;
 import ra.exceptions.RAException;
-import ra.grammar.error.handlers.ColumnDoesNotExistHandler;
+import ra.grammar.error.handlers.InvalidColumnReferenceHandler;
 import ra.grammar.error.handlers.RAErrorHandler;
 
 import java.sql.SQLException;
 
 public class RAErrorParser {
     private static RAErrorHandler[] HANDLERS = {
-            new ColumnDoesNotExistHandler()
+            new InvalidColumnReferenceHandler()
     };
     private RA ra;
 

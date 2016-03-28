@@ -8,14 +8,14 @@ import ra.grammar.gen.RAGrammarParser;
 /**
  * Created by jordanly on 2/29/16.
  */
-public class ColumnDoesNotExistHandler extends RAErrorHandler {
+public class InvalidColumnReferenceHandler extends RAErrorHandler {
     private static String PATTERN = "column \"(.*)\" does not exist";
     private static String MESSAGE = "ERROR: Column '%s' does not exists";
     private static Class[] CLASSES = {
             RAGrammarParser.UnaryExpressionContext.class
     };
 
-    public ColumnDoesNotExistHandler() {
+    public InvalidColumnReferenceHandler() {
         super(PATTERN, MESSAGE, CLASSES);
     }
 
@@ -29,15 +29,17 @@ public class ColumnDoesNotExistHandler extends RAErrorHandler {
             ParserRuleContext problemContext = (ParserRuleContext) ctx.getChild(0) // unaryOperator
                     .getChild(1)  // operator option
                     .getChild(1); // condtion
-            query.setException(
-                    new RAException(
-                            problemContext.start,
-                            problemContext.stop,
-                            printMessage()
-                    )
+
+            RAException e = new RAException(
+                    problemContext.start,
+                    problemContext.stop,
+                    printMessage()
             );
-        } else if (ctx.getRuleContext().getClass().equals(RAGrammarParser.UnitExpressionContext.class)) {
-            // TODO error?
+            e.setErrorHandler(this);
+
+            query.setException(e);
+        } else {
+            // TODO log that there is some instance where this does not apply.
         }
 
         return true;

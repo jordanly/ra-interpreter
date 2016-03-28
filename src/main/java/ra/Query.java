@@ -77,6 +77,10 @@ public class Query {
         return (exception == null);
     }
 
+    public RAException getException() {
+        return this.exception;
+    }
+
     public void setException(RAException e) {
         this.exception = e;
     }
