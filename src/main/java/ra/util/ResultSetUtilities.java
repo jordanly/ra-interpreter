@@ -6,6 +6,10 @@ import org.json.JSONObject;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by jordanly on 10/18/15.
@@ -105,6 +109,48 @@ public final class ResultSetUtilities {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static boolean validateResultSet(ResultSet rs, String[][] ans) throws Exception {
+        ResultSetMetaData md = rs.getMetaData();
+        int numCols = md.getColumnCount();
+        List<List<String>> rows = new ArrayList<>();
+        while (rs.next()) {
+            List<String> line = new ArrayList<>();
+            for (int i = 1; i <= numCols; i++) {
+                line.add(rs.getString(i));
+            }
+            rows.add(line);
+        }
+
+        String[][] out = new String[rows.size()][rows.get(0).size()];
+        for (int i = 0; i < out.length; i++) {
+            out[i] = rows.get(i).toArray(new String[out[0].length]);
+        }
+
+        Arrays.sort(ans, new StringMatrixComparator());
+        Arrays.sort(out, new StringMatrixComparator());
+
+        for (int i = 0; i < ans.length; i++) {
+            if (!Arrays.equals(ans[i], out[i])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static class StringMatrixComparator implements Comparator<String[]> {
+        @Override
+        public int compare(String[] o1, String[] o2) {
+            for (int i = 0; i < Math.min(o1.length, o2.length); i++) {
+                int val = o1[i].compareTo(o2[i]);
+                if (val != 0) return val;
+            }
+
+            if (o1.length != o2.length) return o1.length - o2.length;
+            return 0;
         }
     }
 }
