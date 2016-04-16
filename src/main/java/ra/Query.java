@@ -22,7 +22,7 @@ public class Query {
     private ResultSet resultSet;
     private String raQuery;
     private String sqlQuery;
-    private boolean isAssignment;
+    private boolean isAssignment; // If the query only contains assignment operations
     private RAASTNode astTree;
 
     public Query(RA ra, String raQuery) {
@@ -106,12 +106,10 @@ public class Query {
             obj.put("message", "ERROR 10: Contact administrator"); // TODO make error codes?
             return obj;
         }
+        obj.put("isAssignment", isAssignment);
         if (resultSet != null) {
             obj.put("columnNames", ResultSetUtilities.columnsToJSONArray(resultSet));
             obj.put("data", ResultSetUtilities.toJSONArray(resultSet));
-        }
-        if (isAssignment != false) {
-            obj.put("isAssignment", isAssignment);
         }
 
         return obj;
