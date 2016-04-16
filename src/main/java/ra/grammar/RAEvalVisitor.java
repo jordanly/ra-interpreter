@@ -163,6 +163,12 @@ public class RAEvalVisitor extends RAGrammarBaseVisitor<String> {
             }
         }
 
+        if (sqlQuery == null) { // no query, only assignments
+            // TODO kind of a hack, return null only assignment query
+            // if there is no error, then a null return means the assignment is valid
+            return null;
+        }
+
         return String.format(" SELECT * FROM ( %s ) %s ",
                 sqlQuery, generateAlias());
     }

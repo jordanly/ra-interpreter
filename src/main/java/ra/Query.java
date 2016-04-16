@@ -22,10 +22,12 @@ public class Query {
     private ResultSet resultSet;
     private String raQuery;
     private String sqlQuery;
+    private boolean isAssignment;
     private RAASTNode astTree;
 
     public Query(RA ra, String raQuery) {
         this.raQuery = raQuery;
+        this.isAssignment = false;
         init(ra);
     }
 
@@ -65,12 +67,16 @@ public class Query {
         }
 
         if (isValid()) {
-            try {
-                this.resultSet = ra.evaluateSQLQuery(sqlQuery);
-            } catch (Exception e) {
-                this.exception = new RAException(
-                    "UNKNOWN EXCEPTION: " + e.getMessage()
-                );
+            if (sqlQuery == null) { // valid query, only assignments
+                isAssignment = true;
+            } else {
+                try {
+                    this.resultSet = ra.evaluateSQLQuery(sqlQuery);
+                } catch (Exception e) {
+                    this.exception = new RAException(
+                            "UNKNOWN EXCEPTION: " + e.getMessage()
+                    );
+                }
             }
         }
     }
@@ -94,9 +100,18 @@ public class Query {
         obj.put("isError", exception != null);
         if (exception != null) {
             obj.put("error", exception.asJson());
-        } else {
+            return obj;
+        }
+        if (resultSet == null && isAssignment == false) { // should never happen
+            obj.put("message", "ERROR 10: Contact administrator"); // TODO make error codes?
+            return obj;
+        }
+        if (resultSet != null) {
             obj.put("columnNames", ResultSetUtilities.columnsToJSONArray(resultSet));
             obj.put("data", ResultSetUtilities.toJSONArray(resultSet));
+        }
+        if (isAssignment != false) {
+            obj.put("isAssignment", isAssignment);
         }
 
         return obj;
