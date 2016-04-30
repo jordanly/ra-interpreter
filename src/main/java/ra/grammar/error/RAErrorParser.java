@@ -6,12 +6,14 @@ import ra.RA;
 import ra.exceptions.RAException;
 import ra.grammar.error.handlers.InvalidColumnReferenceHandler;
 import ra.grammar.error.handlers.RAErrorHandler;
+import ra.grammar.error.handlers.RelationDoesNotExistHandler;
 
 import java.sql.SQLException;
 
 public class RAErrorParser {
     private static RAErrorHandler[] HANDLERS = {
-            new InvalidColumnReferenceHandler()
+            new InvalidColumnReferenceHandler(),
+            new RelationDoesNotExistHandler()
     };
     private RA ra;
 

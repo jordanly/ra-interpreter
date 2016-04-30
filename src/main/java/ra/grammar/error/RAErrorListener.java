@@ -1,9 +1,6 @@
 package ra.grammar.error;
 
-import org.antlr.v4.runtime.BaseErrorListener;
-import org.antlr.v4.runtime.LexerNoViableAltException;
-import org.antlr.v4.runtime.RecognitionException;
-import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.*;
 import ra.Query;
 import ra.exceptions.RAException;
 
@@ -32,8 +29,8 @@ public class RAErrorListener extends BaseErrorListener {
             } else { // All other parser exceptions
                 query.setException(
                         new RAException(
-                                e.getOffendingToken(),
-                                e.getOffendingToken(),
+                                (CommonToken) offendingSymbol,
+                                (CommonToken) offendingSymbol,
                                 "Syntax Error: " + msg
                         )
                 );
