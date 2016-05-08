@@ -1,4 +1,4 @@
-// Generated from /Users/jordanly/Documents/workspace/ra3/src/main/java/ra/grammar/RAGrammar.g4 by ANTLR 4.5.1
+// Generated from /Users/jordanly/Documents/workspace/ra-interpreter/src/main/java/ra/grammar/RAGrammar.g4 by ANTLR 4.5.1
 package ra.grammar.gen;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -16,133 +16,229 @@ public class RAGrammarBaseListener implements RAGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExp0(RAGrammarParser.Exp0Context ctx) { }
+	@Override public void enterProgram(RAGrammarParser.ProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExp0(RAGrammarParser.Exp0Context ctx) { }
+	@Override public void exitProgram(RAGrammarParser.ProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTableExp(RAGrammarParser.TableExpContext ctx) { }
+	@Override public void enterStatement(RAGrammarParser.StatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTableExp(RAGrammarParser.TableExpContext ctx) { }
+	@Override public void exitStatement(RAGrammarParser.StatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParenExp(RAGrammarParser.ParenExpContext ctx) { }
+	@Override public void enterAssignmentExpression(RAGrammarParser.AssignmentExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParenExp(RAGrammarParser.ParenExpContext ctx) { }
+	@Override public void exitAssignmentExpression(RAGrammarParser.AssignmentExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterUnitExp(RAGrammarParser.UnitExpContext ctx) { }
+	@Override public void enterUnitExpression(RAGrammarParser.UnitExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitUnitExp(RAGrammarParser.UnitExpContext ctx) { }
+	@Override public void exitUnitExpression(RAGrammarParser.UnitExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterUnaryExp(RAGrammarParser.UnaryExpContext ctx) { }
+	@Override public void enterUnaryOperator(RAGrammarParser.UnaryOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitUnaryExp(RAGrammarParser.UnaryExpContext ctx) { }
+	@Override public void exitUnaryOperator(RAGrammarParser.UnaryOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSingleUnaryExp(RAGrammarParser.SingleUnaryExpContext ctx) { }
+	@Override public void enterUnaryExpression(RAGrammarParser.UnaryExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSingleUnaryExp(RAGrammarParser.SingleUnaryExpContext ctx) { }
+	@Override public void exitUnaryExpression(RAGrammarParser.UnaryExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterJoinExp(RAGrammarParser.JoinExpContext ctx) { }
+	@Override public void enterBinaryOperator(RAGrammarParser.BinaryOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitJoinExp(RAGrammarParser.JoinExpContext ctx) { }
+	@Override public void exitBinaryOperator(RAGrammarParser.BinaryOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBinaryExp(RAGrammarParser.BinaryExpContext ctx) { }
+	@Override public void enterBinaryExpression(RAGrammarParser.BinaryExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBinaryExp(RAGrammarParser.BinaryExpContext ctx) { }
+	@Override public void exitBinaryExpression(RAGrammarParser.BinaryExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSingleTermExp(RAGrammarParser.SingleTermExpContext ctx) { }
+	@Override public void enterComparisonOperator(RAGrammarParser.ComparisonOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSingleTermExp(RAGrammarParser.SingleTermExpContext ctx) { }
+	@Override public void exitComparisonOperator(RAGrammarParser.ComparisonOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterJoinTermExp(RAGrammarParser.JoinTermExpContext ctx) { }
+	@Override public void enterEqualityOperator(RAGrammarParser.EqualityOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitJoinTermExp(RAGrammarParser.JoinTermExpContext ctx) { }
+	@Override public void exitEqualityOperator(RAGrammarParser.EqualityOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBinaryTermExp(RAGrammarParser.BinaryTermExpContext ctx) { }
+	@Override public void enterValue(RAGrammarParser.ValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBinaryTermExp(RAGrammarParser.BinaryTermExpContext ctx) { }
+	@Override public void exitValue(RAGrammarParser.ValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSelectCondition(RAGrammarParser.SelectConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSelectCondition(RAGrammarParser.SelectConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterJoinCondition(RAGrammarParser.JoinConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitJoinCondition(RAGrammarParser.JoinConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCondition(RAGrammarParser.ConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCondition(RAGrammarParser.ConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNotCondition(RAGrammarParser.NotConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNotCondition(RAGrammarParser.NotConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBooleanOperator(RAGrammarParser.BooleanOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBooleanOperator(RAGrammarParser.BooleanOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBooleanCondition(RAGrammarParser.BooleanConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBooleanCondition(RAGrammarParser.BooleanConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAttributeList(RAGrammarParser.AttributeListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAttributeList(RAGrammarParser.AttributeListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOperatorOption(RAGrammarParser.OperatorOptionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOperatorOption(RAGrammarParser.OperatorOptionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

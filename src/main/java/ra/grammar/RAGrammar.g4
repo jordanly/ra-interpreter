@@ -4,12 +4,13 @@ grammar RAGrammar ;
 
 fragment DIGIT : [0-9] ;
 fragment ALPHA : [a-zA-Z]+ ;
-WS : [ \t\r\n]+ -> skip ;
 
-LEFT_PAREN : '(' ;
-RIGHT_PAREN : ')' ;
-STATEMENT_TERMINATOR : ';' ;
-TABLE_NAME : ALPHA (ALPHA|DIGIT|'_')* ;
+// Reserved Keywords
+AND : 'and' ;
+OR  : 'or' ;
+NOT : 'not' ;
+LIKE : 'like' ;
+LET : 'let' ;
 
 // Base RA commands
 SELECT : '\\select' ;
@@ -20,10 +21,36 @@ UNION : '\\union' ;
 DIFF : '\\diff' ;
 INTERSECT: '\\intersect' ;
 RENAME : '\\rename' ;
-SQLEXEC : '\\sqlexec' ; // Do we need?
 
-OPERATOR_OPTION : '_{' (INSIDE_OPERATOR_OPTION)* '}' ;
-INSIDE_OPERATOR_OPTION : ~('}'|'\n'|'\r') ;
+// Separators
+LEFT_PAREN : '(' ;
+RIGHT_PAREN : ')' ;
+LEFT_BRACE : '_{' ;
+RIGHT_BRACE : '}' ;
+COMMA : ',' ;
+DOT : '.' ;
+STATEMENT_TERMINATOR : ';' ;
+
+// Operations
+EQUALS : '=' ;
+LT : '<' ;
+LTE : '<=' ;
+GT : '>' ;
+GTE : '>=' ;
+NOT_EQUALS : '<>' ;
+
+// Numbers
+INT : DIGIT+ ;
+FLOAT : DIGIT DOT DIGIT+ ;
+
+// Strings
+STRING_LITERAL : '\'' (.|[^'])*? '\'' ;
+
+// Identifier
+ID : ALPHA (ALPHA|DIGIT|'_')* ; // Column or table name
+
+// Whitespace
+WHITESPACE : [ \t\r\n]+ -> skip;
 
 // C style comments
 COMMENT : '/*' .*? '*/' -> channel(HIDDEN) ;
@@ -31,36 +58,104 @@ SINGLELINE_COMMENT: '//' ~('\r'|'\n')*  -> channel(HIDDEN) ;
 
 // ==========================================
 
-// Paddrser Rules
+// Parser Rules
 
-exp0        : exp STATEMENT_TERMINATOR EOF ;
+program
+    : ( statement )+ EOF ;
 
-exp_unit    : TABLE_NAME                                #tableExp
-            | LEFT_PAREN exp1 RIGHT_PAREN               #parenExp
-            ;
+statement
+    : binaryExpression STATEMENT_TERMINATOR
+    | assignmentExpression STATEMENT_TERMINATOR
+    ;
 
-exp_unary   : exp_unit                                  #unitExp
-            | SELECT OPERATOR_OPTION exp_unary          #unaryExp
-            | PROJECT OPERATOR_OPTION exp_unary         #unaryExp
-            | RENAME OPERATOR_OPTION exp_unary          #unaryExp
-            ;
+assignmentExpression
+    : LET ID EQUALS binaryExpression
+    ;
 
-exp         : exp_unary                                 #singleUnaryExp
-            | exp_unary JOIN OPERATOR_OPTION exp_unary  #joinExp
-            | exp_unary JOIN exp_unary                  #binaryExp
-            | exp_unary CROSS exp_unary                 #binaryExp
-            | exp_unary UNION exp_unary                 #binaryExp
-            | exp_unary DIFF exp_unary                  #binaryExp
-            | exp_unary INTERSECT exp_unary             #binaryExp
-            ;
+unitExpression
+    : ID
+    | LEFT_PAREN binaryExpression RIGHT_PAREN
+    ;
 
-exp1        : exp                                       #singleTermExp
-            | exp JOIN OPERATOR_OPTION exp_unary        #joinTermExp
-            | exp JOIN exp_unary                        #binaryTermExp
-            | exp CROSS exp_unary                       #binaryTermExp
-            | exp UNION exp_unary                       #binaryTermExp
-            | exp DIFF exp_unary                        #binaryTermExp
-            | exp INTERSECT exp_unary                   #binaryTermExp
-            ;
+unaryOperator
+    : SELECT operatorOption
+    | PROJECT operatorOption
+    | RENAME operatorOption
+    ;
+
+unaryExpression
+    : unitExpression
+    | unaryOperator unaryExpression
+    ;
+
+binaryOperator
+    : JOIN operatorOption
+    | JOIN
+    | CROSS
+    | UNION
+    | DIFF
+    | INTERSECT
+    ;
+
+binaryExpression
+    : unaryExpression ( binaryOperator unaryExpression )*
+    ;
+
+comparisonOperator
+    : GT
+    | GTE
+    | LT
+    | LTE
+    ;
+
+equalityOperator
+    : EQUALS
+    | NOT_EQUALS
+    ;
+
+value
+    : INT
+    | FLOAT
+    ;
+
+selectCondition
+    : ID comparisonOperator value
+    | ID comparisonOperator ID
+    | ID equalityOperator ID
+    | ID equalityOperator STRING_LITERAL
+    | ID LIKE STRING_LITERAL
+    ;
+
+joinCondition
+    : ID equalityOperator ID
+    | ID comparisonOperator ID
+    ;
+
+condition
+    : selectCondition
+    | joinCondition
+    ;
+
+notCondition
+    : ( NOT )? condition
+    ;
+
+booleanOperator
+    : AND
+    | OR
+    ;
+
+booleanCondition
+    : notCondition ( booleanOperator notCondition )*
+    ;
+
+attributeList
+    : ID ( COMMA ID )*
+    ;
+
+operatorOption
+    : LEFT_BRACE booleanCondition RIGHT_BRACE
+    | LEFT_BRACE attributeList RIGHT_BRACE
+    ;
 
 // ==========================================

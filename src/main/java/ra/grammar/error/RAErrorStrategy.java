@@ -13,4 +13,19 @@ public class RAErrorStrategy extends DefaultErrorStrategy {
     public Token recoverInline(Parser recognizer) throws RecognitionException {
         throw new InputMismatchException(recognizer);
     }
+
+    @Override
+    public void reportError(Parser recognizer, RecognitionException e) {
+        if (e instanceof LexerNoViableAltException) {
+            return;
+        }
+
+        super.reportError(recognizer, e);
+    }
+
+    @Override
+    public void recover(Parser recognizer, RecognitionException e) {
+        // Do not try to recover
+        // super.recover(recognizer, e);
+    }
 }

@@ -2,16 +2,16 @@ package ra;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.json.JSONObject;
 import ra.ast.RAASTNode;
 import ra.ast.RAASTVisitor;
 import ra.exceptions.RAException;
+import ra.grammar.RAEvalVisitor;
 import ra.grammar.error.RAErrorListener;
 import ra.grammar.error.RAErrorStrategy;
-import ra.grammar.RAEvalVisitor;
-import ra.grammar.gen.RAGrammarLexer;
-import ra.grammar.gen.RAGrammarParser;
+import ra.grammar.gen.*;
 import ra.util.ResultSetUtilities;
 
 import java.sql.ResultSet;
@@ -22,10 +22,12 @@ public class Query {
     private ResultSet resultSet;
     private String raQuery;
     private String sqlQuery;
+    private boolean isAssignment; // If the query only contains assignment operations
     private RAASTNode astTree;
 
     public Query(RA ra, String raQuery) {
         this.raQuery = raQuery;
+        this.isAssignment = false;
         init(ra);
     }
 
@@ -42,29 +44,49 @@ public class Query {
         parser.setErrorHandler(new RAErrorStrategy());
 
         /**
-         * Remove the default ANTLR listener before adding our own listener. The
-         * default ANTLR listener just prints parsing errors to STDERR"
+         * Remove the default ANTLR listeners before adding our own listeners. The
+         * default ANTLR listeners just prints errors to STDERR"
          */
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(new RAErrorListener(this));
         parser.removeErrorListeners();
         parser.addErrorListener(new RAErrorListener(this));
 
-        this.tree = parser.exp0();
-        this.sqlQuery = new RAEvalVisitor(ra, this).visit(tree);
-        this.astTree = new RAASTVisitor().visit(tree);
+        try {
+            this.tree = parser.program();
+            this.sqlQuery = new RAEvalVisitor(ra, this).visit(tree);
+            this.astTree = new RAASTVisitor().visit(tree);
+        } catch (RecognitionException e) {
+            // Exception should already be set in query from listener, just return
+            return;
+        } catch (Exception e) {
+            // Don't quite know this exception, log it
+            e.printStackTrace();
+            System.err.println("UNKNOWN ERROR: " + e.toString());
+            return;
+        }
 
         if (isValid()) {
-            try {
-                this.resultSet = ra.evaluateSQLQuery(sqlQuery);
-            } catch (Exception e) {
-                this.exception = new RAException(
-                    "UNKNOWN EXCEPTION: " + e.getMessage()
-                );
+            if (sqlQuery == null) { // valid query, only assignments
+                isAssignment = true;
+            } else {
+                try {
+                    this.resultSet = ra.evaluateSQLQuery(sqlQuery);
+                } catch (Exception e) {
+                    this.exception = new RAException(
+                            "UNKNOWN EXCEPTION: " + e.getMessage()
+                    );
+                }
             }
         }
     }
 
     public boolean isValid() {
         return (exception == null);
+    }
+
+    public RAException getException() {
+        return this.exception;
     }
 
     public void setException(RAException e) {
@@ -78,7 +100,14 @@ public class Query {
         obj.put("isError", exception != null);
         if (exception != null) {
             obj.put("error", exception.asJson());
-        } else {
+            return obj;
+        }
+        if (resultSet == null && isAssignment == false) { // should never happen
+            obj.put("message", "ERROR 10: Contact administrator"); // TODO make error codes?
+            return obj;
+        }
+        obj.put("isAssignment", isAssignment);
+        if (resultSet != null) {
             obj.put("columnNames", ResultSetUtilities.columnsToJSONArray(resultSet));
             obj.put("data", ResultSetUtilities.toJSONArray(resultSet));
         }
